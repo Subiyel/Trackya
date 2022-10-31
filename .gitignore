@@ -37,8 +37,8 @@ DerivedData
 /ReactAndroid/external-artifacts/artifacts/
 /ReactAndroid/hermes-engine/build/
 /ReactAndroid/hermes-engine/.cxx/
-/template/android/app/build/
-/template/android/build/
+/android/app/build/
+/android/build/
 
 # Buck
 .buckd
@@ -94,12 +94,12 @@ package-lock.json
 
 # Ruby Gems (Bundler)
 /vendor
-/template/vendor
+/vendor
 
 # iOS / CocoaPods
-/template/ios/build/
-/template/ios/Pods/
-/template/ios/Podfile.lock
+/ios/build/
+/ios/Pods/
+/ios/Podfile.lock
 /packages/rn-tester/Gemfile.lock
 
 # Ignore RNTester specific Pods, but keep the __offline_mirrors__ here.
