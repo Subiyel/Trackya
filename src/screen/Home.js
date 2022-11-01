@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { StyleSheet,  View, ScrollView, Text, Dimensions, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyText }  from '../components';
-// import { colors } from "../util/constants";
 // import { u } from "../util/utilities";
 import { Provider, connect } from 'react-redux';
 // import { ApiConstants } from "../api/ApiConstants";
@@ -14,16 +13,19 @@ import { Provider, connect } from 'react-redux';
 
 function Home({ route, appReducer, dispatch, navigation }) {
   
+  
 
   const [email, setEmail] = useState('');
-  
+  // const theme = useContext(ThemeContext);
+  // console.log("Colors: ", theme)
+
 
       return (
 
         <View style={styles.container}>
           <View style={styles.containerWrapper}>
 
-              <MyText style={{ textAlign: 'center', width: '100%', marginTop: 100 }}>Home</MyText>
+              <MyText style={{ textAlign: 'center', color:'#000', width: '100%', marginTop: 100 }}>Home</MyText>
 
           </View>
         </View>

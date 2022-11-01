@@ -8,9 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 AppNavigator = (props) => {
-    const isAuth = useSelector(state => state.appReducer.isLoggedIn);
-    const videoIntent = props.video
-    console.log("isLoggedIn: ", videoIntent)
+    // const isAuth = useSelector(state => state.appReducer.isLoggedIn);
         return(	
             <NavigationContainer>
                 <Stack.Navigator  screenOptions={{ headerShown : false }}>
@@ -31,3 +29,5 @@ AppNavigator = (props) => {
             </NavigationContainer>
      )
     }
+
+export default AppNavigator;

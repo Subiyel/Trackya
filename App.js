@@ -29,18 +29,28 @@ import {
 import { Provider } from 'react-redux';
 import AppNavigator from './src/navigation/AppNavigator'
 import { PersistGate } from 'redux-persist/integration/react'
-import configureStore from './src/store/configureStore';
-
-const {store, persistor} = configureStore();
+import store from './src/store/configureStore';
+import { persistStore, persistReducer } from 'redux-persist'
+import themes from "./src/util/Colors";
+import { AppStateProvider } from "./AppState"
+let persistor = persistStore(store)
+const ThemeContext = React.createContext(themes.light);
+// const {store, persistor} = configureStore();
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
 
+console.log("Store: ", store)
+console.log(" persistor: ",persistor )
+console.log(" Provider: ",Provider )
+
+console.log(" PersistGate: ",PersistGate )
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
+    flex:1,
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
@@ -49,7 +59,9 @@ const App: () => Node = () => {
      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
        <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
+          <AppStateProvider>
               <AppNavigator />
+          </AppStateProvider>
         </PersistGate>
        </Provider> 
      </SafeAreaView>

@@ -33,6 +33,4 @@ const appReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default combineReducers({
-  appReducer: appReducer,
-});
+export default combineReducers({ appReducer })
