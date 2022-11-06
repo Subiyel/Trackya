@@ -1,22 +1,36 @@
 import React, { useState,useRef } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
+import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyBack }  from '../components';
 import { Provider, connect } from 'react-redux';
+import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter';
+import {CountryPicker} from "react-native-country-codes-picker";
 import Icon from 'react-native-vector-icons/Ionicons';
+const width = Dimensions.get('window').width;
 
 
-function Login({ route, appReducer, dispatch, navigation }) {
+function Signup({ route, appReducer, dispatch, navigation }) {
   
-
-
+  
+  const [countryCode, setCountryCode] = useState('+92');
+  const [countryPicker, setCountryPicker] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [fcmToken, setFcmToken] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [confirmVisible, toggleConfirm] = useState(false);
+
   const [isLoading, setLoading] = useState(false);
   const [passVisible, togglePass] = useState(false);
   const [emailErr, toggleEmailErr] = useState(false);
+  const firstRef = useRef(0);
+  const phoneRef = useRef(0);
+  const lastRef = useRef(0);
   const emailRef = useRef(0);
-  const passRef = useRef(0);  
+  const passRef = useRef(0); 
+  const confirmRef = useRef(0);
+ 
 
   const revealPassword = () => {
     togglePass(!passVisible)
@@ -34,9 +48,21 @@ function Login({ route, appReducer, dispatch, navigation }) {
           
           
               <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} />
-              <MyText style={styles.txt1}>Proceed with you</MyText>
-              <MyText style={styles.txt2}>Login</MyText>
+              <MyText style={styles.txt1}>Create your account</MyText>
+              <MyText style={styles.txt2}>SignUp</MyText>
 
+
+              <View style={styles.row1}>
+              <View style={styles.halfView}> 
+                <MyText style={ styles.fieldText }>First Name</MyText>   
+                <TextInput ref={ firstRef } value={ firstName } placeholder={"First Name"} onChangeText={(text)=> setFirstName(text) } style={ firstName == '' ? styles.otp : styles.otpFilled } onBlur={()=> firstRef.current.setNativeProps({style:{borderColor: "black"}})} />
+              </View>
+
+              <View style={styles.halfView}> 
+                <MyText style={ styles.fieldText }>Last Name</MyText>   
+                <TextInput ref={ lastRef } value={ lastName } placeholder={"Last Name"} onChangeText={(text)=> setLastName(text) } style={ lastName == '' ? styles.otp : styles.otpFilled } onBlur={()=> lastRef.current.setNativeProps({style:{borderColor: "black"}})} />
+              </View>
+            </View>
 
               <View style={styles.row1}>
                 <View style={styles.fullView}> 
@@ -59,14 +85,43 @@ function Login({ route, appReducer, dispatch, navigation }) {
                 </View>
             </View>
 
+            <BoxPasswordStrengthDisplay wrapperStyle={{ marginTop: 10 }} password={ password } minLength={3} width={ width - 80 } />
+
+
+
+            <View style={styles.row1}>
+
+                <View style={styles.view20}> 
+                    <MyText style={ styles.fieldText }>Country</MyText>   
+                    <TouchableOpacity style={styles.codeButton} onPress={()=> setCountryPicker(true)}>
+                      <MyText style={styles.codeTxt}>{countryCode}</MyText>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.view80}> 
+                    <MyText style={ styles.fieldText }>Phone</MyText>   
+                    <TextInput ref={ phoneRef } value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
+                </View>
+            </View>
+
+
+            <CountryPicker
+              show={countryPicker}
+              // when picker button press you will get the country object with dial code
+              pickerButtonOnPress={(item) => { console.log("item====> ", item)
+                setCountryCode(item.dial_code);
+                setCountryPicker(false);
+              }}
+            />
+
+
             <MyButton isLoading={false} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Login'} />
 
-            <MyText style={styles.forgotTxt}>Forgot Password?</MyText>
 
 
             <View style={{ flexDirection:'row', alignItems:'center', alignSelf:'center' }}>
-            <MyText style={styles.alreadyTxt}>Don’t have an account?</MyText>
-            <TouchableOpacity onPress={()=> navigation.navigate('Signup')}><MyText style={styles.loginTxt}>Sign Up</MyText></TouchableOpacity>
+            <MyText style={styles.alreadyTxt}>Already Have an Account?</MyText>
+            <TouchableOpacity onPress={()=> navigation.navigate('Login')}><MyText style={styles.loginTxt}>Login instead</MyText></TouchableOpacity>
             </View>
 
           </View>
@@ -100,10 +155,34 @@ function Login({ route, appReducer, dispatch, navigation }) {
       },
 
       logo: { 
-        height: 50,
-        width: 200,
-        marginTop: 80,
+        height: 40,
+        width: 100,
+        marginTop: 30,
         alignSelf: 'center'
+      },
+      codeButton:{
+        padding: 5,
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderRadius: 2,
+        borderColor: '#babab8'
+      },
+      codeTxt: {
+        fontSize: 14
+      },
+
+      txt1: {
+        fontSize: 22,
+        fontWeight: '200',
+        marginTop: 30,
+        color: '#616160'
+      },
+
+      txt2: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 30
       },
 
       otp: {
@@ -130,19 +209,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
         color: '#000000'
       },
 
-      txt1: {
-        fontSize: 22,
-        fontWeight: '200',
-        marginTop: 50,
-        color: '#616160'
-      },
-
-      txt2: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        marginTop: 10,
-        marginBottom: 30
-      },
+      
 
       row1: {
         flexDirection: 'row',
@@ -185,6 +252,12 @@ function Login({ route, appReducer, dispatch, navigation }) {
       },
       fullView:{
           width: '100%',
+      },
+      view80:{
+        width: '75%',
+      },
+      view20:{
+        width: '15%',
       },
       buttonSubmit:{
         marginTop: 40,
@@ -242,5 +315,5 @@ function Login({ route, appReducer, dispatch, navigation }) {
     })
     
     
-    const LoginContainer = connect(state => ({ appReducer: state }))(Login);
-    export default LoginContainer
+    const SignupContainer = connect(state => ({ appReducer: state }))(Signup);
+    export default SignupContainer

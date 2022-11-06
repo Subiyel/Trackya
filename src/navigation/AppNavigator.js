@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Text, View, Image } from 'react-native';
 import HomeContainer from '../screen/Home';
 import LoginContainer from '../screen/Login';
+import SignupContainer from '../screen/Signup';
+import IntroContainer from '../screen/Intro';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -20,8 +22,11 @@ AppNavigator = (props) => {
                         {props => <BottomTabs {...props} videoIntent={videoIntent} />}
                     </Stack.Screen>
                 : */}
+
+                    <Stack.Screen name="Intro"  component={IntroContainer} />
                     <Stack.Screen name="Home"  component={HomeContainer} />
                     <Stack.Screen name="Login"  component={LoginContainer} />
+                    <Stack.Screen name="Signup"  component={SignupContainer} />
                 {/* } */}
     
     

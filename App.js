@@ -32,7 +32,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import store from './src/store/configureStore';
 import { persistStore, persistReducer } from 'redux-persist'
 import themes from "./src/util/Colors";
-import { AppStateProvider } from "./AppState"
+import AppStateProvider from "./AppState"
 let persistor = persistStore(store)
 const ThemeContext = React.createContext(themes.light);
 // const {store, persistor} = configureStore();
@@ -51,7 +51,7 @@ const App: () => Node = () => {
 
   const backgroundStyle = {
     flex:1,
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? Colors.darker : 'white',
   };
 
   return (

@@ -3,7 +3,7 @@ import { useColorScheme } from 'react-native';
 import themes from "./src/util/Colors";
 
 
-export const AppStateContext = createContext();
+const AppStateContext = createContext();
 
 const AppStateProvider = props => {
 
@@ -16,3 +16,5 @@ const AppStateProvider = props => {
     </AppStateContext.Provider>
   );
 };
+
+export default AppStateProvider;

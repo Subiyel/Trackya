@@ -3,6 +3,7 @@ import { StyleSheet,  View, ScrollView, Text, Dimensions, TouchableOpacity, Imag
 import  { MyText }  from '../components';
 // import { u } from "../util/utilities";
 import { Provider, connect } from 'react-redux';
+// import AppStateProvider from "../../AppState";
 // import { ApiConstants } from "../api/ApiConstants";
 // import Api from "../api/Api";
 // import * as types from "../store/actions/types";
@@ -16,7 +17,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
   
 
   const [email, setEmail] = useState('');
-  // const theme = useContext(ThemeContext);
+  // const theme = useContext(AppStateProvider);
   // console.log("Colors: ", theme)
 
 
