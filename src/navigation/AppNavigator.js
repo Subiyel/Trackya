@@ -4,6 +4,8 @@ import HomeContainer from '../screen/Home';
 import LoginContainer from '../screen/Login';
 import SignupContainer from '../screen/Signup';
 import IntroContainer from '../screen/Intro';
+import LandingContainer from '../screen/Landing';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -27,6 +29,7 @@ AppNavigator = (props) => {
                     <Stack.Screen name="Home"  component={HomeContainer} />
                     <Stack.Screen name="Login"  component={LoginContainer} />
                     <Stack.Screen name="Signup"  component={SignupContainer} />
+                    <Stack.Screen name="Landing"  component={LandingContainer} />
                 {/* } */}
     
     

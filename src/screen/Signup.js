@@ -115,7 +115,7 @@ function Signup({ route, appReducer, dispatch, navigation }) {
             />
 
 
-            <MyButton isLoading={false} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Login'} />
+            <MyButton isLoading={false} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Register'} />
 
 
 

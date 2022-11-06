@@ -62,7 +62,7 @@ const _renderItem = ({ item }) => {
 
   const _renderDoneButton = () => {
     return (
-      <TouchableOpacity onPress={()=> navigation.navigate('Login') } style={styles.buttonCircleDone}>
+      <TouchableOpacity onPress={()=> navigation.navigate('Landing') } style={styles.buttonCircleDone}>
         <Ion
           name="md-checkmark"
           color="rgba(255, 255, 255, .9)"
