@@ -33,8 +33,8 @@ function Login({ route, appReducer, dispatch, navigation }) {
           <View style={styles.containerWrapper}>
           
           
-              <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} />
-              <MyText style={styles.txt1}>Proceed with you</MyText>
+              <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} resizeMode={'contain'} />
+              <MyText style={styles.txt1}>Proceed with your</MyText>
               <MyText style={styles.txt2}>Login</MyText>
 
 
@@ -100,10 +100,11 @@ function Login({ route, appReducer, dispatch, navigation }) {
       },
 
       logo: { 
-        height: 50,
-        width: 200,
-        marginTop: 80,
-        alignSelf: 'center'
+        height: 100,
+        width: 360,
+        marginTop: 40,
+        alignSelf: 'center',
+        marginRight: 20
       },
 
       otp: {

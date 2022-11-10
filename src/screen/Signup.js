@@ -1,9 +1,12 @@
 import React, { useState,useRef } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyBack }  from '../components';
+import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
 import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 import {CountryPicker} from "react-native-country-codes-picker";
+import { ApiConstants } from "../api/ApiConstants";
+import Api from "../api/Api";
 import Icon from 'react-native-vector-icons/Ionicons';
 const width = Dimensions.get('window').width;
 
@@ -18,8 +21,6 @@ function Signup({ route, appReducer, dispatch, navigation }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
-  const [confirm, setConfirm] = useState('');
-  const [confirmVisible, toggleConfirm] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
   const [passVisible, togglePass] = useState(false);
@@ -37,7 +38,33 @@ function Signup({ route, appReducer, dispatch, navigation }) {
   }
 
   const validateForm = () => {
-    
+    if (u.isNullorEmpty(email)){
+      alert("Email is mandatory")
+    } else if (u.isNullorEmpty(password)){
+      alert("Password is mandatory")
+    } else if (u.isNullorEmpty(firstName)){
+      alert("Name is mandatory")
+    } else if (u.isNullorEmpty(lastName)){
+      alert("Name is mandatory")
+    } else if (u.isNullorEmpty(phone)){
+      alert("Name is mandatory")
+    } else {
+      signupUser()
+    }
+  }
+
+  const signupUser = async () => {
+    let data = {
+      "name": firstName + " " + lastName,
+      "email": email,
+      "phone": countryCode + "" + phone,
+      "password": password
+  }
+  
+  setLoading(true)
+  const res = await Api(ApiConstants.BASE_URL + ApiConstants.SIGNIN, data, "POST")
+  setLoading(false)
+  console.log(res)
   }
   
       return (
@@ -47,7 +74,7 @@ function Signup({ route, appReducer, dispatch, navigation }) {
           <View style={styles.containerWrapper}>
           
           
-              <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} />
+              <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} resizeMode={'contain'} />
               <MyText style={styles.txt1}>Create your account</MyText>
               <MyText style={styles.txt2}>SignUp</MyText>
 
@@ -115,7 +142,7 @@ function Signup({ route, appReducer, dispatch, navigation }) {
             />
 
 
-            <MyButton isLoading={false} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Register'} />
+            <MyButton isLoading={isLoading} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Register'} />
 
 
 
@@ -155,10 +182,11 @@ function Signup({ route, appReducer, dispatch, navigation }) {
       },
 
       logo: { 
-        height: 40,
-        width: 100,
-        marginTop: 30,
-        alignSelf: 'center'
+        height: 70,
+        width: 160,
+        marginTop: 20,
+        alignSelf: 'center',
+        marginRight: 30
       },
       codeButton:{
         padding: 5,
