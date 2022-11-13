@@ -46,7 +46,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
       },
       container: {
         flex: 1,
-        backgroundColor: "#FFFFFF"
+        backgroundColor: "#E1E1E1"
       },
       containerWrapper: {
         flex: 1,

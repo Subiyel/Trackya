@@ -1,9 +1,13 @@
 import React, { useState,useRef } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyText, MyImage, MyButton, MyBack }  from '../components';
+import  { MyText, MyImage, MyButton, MyBack, MyBioLogin }  from '../components';
 import { Provider, connect } from 'react-redux';
+import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { u } from "../util/Utilities";
+import { ApiConstants } from "../api/ApiConstants";
+import * as types from "../store/actions/types";
+import Api from "../api/Api";
 
 function Login({ route, appReducer, dispatch, navigation }) {
   
@@ -13,6 +17,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
   const [email, setEmail] = useState('');
   const [fcmToken, setFcmToken] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [isBioLoading, setBioLoading] = useState(false);
   const [passVisible, togglePass] = useState(false);
   const [emailErr, toggleEmailErr] = useState(false);
   const emailRef = useRef(0);
@@ -23,12 +28,88 @@ function Login({ route, appReducer, dispatch, navigation }) {
   }
 
   const validateForm = () => {
+    if (u.isNullorEmpty(email)){
+      alert("Email is mandatory")
+    } else if (u.isNullorEmpty(password)){
+      alert("Password is mandatory")
+    } else {
+      loginUser()
+    }
+  }
+
+  const loginUser = async () => {
+
+      let params = {
+        "password": password,
+        "email": email,
+      }
     
+      setLoading(true)
+      const res = await Api(ApiConstants.BASE_URL + ApiConstants.LOGIN, params, "POST")
+      setLoading(false)
+      
+      if (res && res.status == "success"){
+        let data = {...res.data}
+        console.log("Login:\n", data)
+        dispatch({ type: types.LOGIN, data })
+        navigation.navigate("BottomTabs")
+      } else if (res && res.message) {
+        alert(res.message)
+      } else {
+        alert("Network Error")
+      }
+
+
+  }
+
+  const biometricLogin = () => {
+    console.log("FaceID Login")
+    setBioLoading(true)
+    const rnBiometrics = new ReactNativeBiometrics()
+
+    rnBiometrics.isSensorAvailable()
+      .then((resultObject) => {
+        const { available, biometryType } = resultObject
+
+        if (available && biometryType === BiometryTypes.TouchID) {
+          console.log('TouchID is supported')
+        } else if (available && biometryType === BiometryTypes.FaceID) {
+          console.log('FaceID is supported')
+          sendBiometricLogin()
+        } else if (available && biometryType === BiometryTypes.Biometrics) {
+          console.log('Biometrics is supported')
+        } else {
+          console.log('Biometrics not supported')
+        }
+      })
+      
+  }
+
+  const sendBiometricLogin = () => {
+    const rnBiometrics = new ReactNativeBiometrics()
+    rnBiometrics.createKeys()
+    .then((resultObject) => {
+      const { publicKey } = resultObject
+      console.log(publicKey)
+      // sendPublicKeyToServer(publicKey)
+    })
+
+    rnBiometrics.biometricKeysExist()
+  .then((resultObject) => {
+    const { keysExist } = resultObject
+
+    if (keysExist) {
+      console.log('Keys exist')
+    } else {
+      console.log('Keys do not exist or were deleted')
+    }
+  })
   }
   
       return (
 
         <View style={styles.container}>
+        <ScrollView>
           <MyBack  {...navigation} />
           <View style={styles.containerWrapper}>
           
@@ -59,10 +140,11 @@ function Login({ route, appReducer, dispatch, navigation }) {
                 </View>
             </View>
 
-            <MyButton isLoading={false} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Login'} />
+            <MyButton isLoading={isLoading} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Login'} />
 
-            <MyText style={styles.forgotTxt}>Forgot Password?</MyText>
+            <MyText style={styles.txt3}>OR SIGN IN WITH</MyText>
 
+            <MyBioLogin isLoading={isBioLoading} onPress={()=> biometricLogin()} />
 
             <View style={{ flexDirection:'row', alignItems:'center', alignSelf:'center' }}>
             <MyText style={styles.alreadyTxt}>Don’t have an account?</MyText>
@@ -70,6 +152,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
             </View>
 
           </View>
+          </ScrollView>
         </View>
       )
     }
@@ -102,7 +185,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
       logo: { 
         height: 100,
         width: 360,
-        marginTop: 40,
+        marginTop: 10,
         alignSelf: 'center',
         marginRight: 20
       },
@@ -134,7 +217,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
       txt1: {
         fontSize: 22,
         fontWeight: '200',
-        marginTop: 50,
+        marginTop: 10,
         color: '#616160'
       },
 
@@ -142,7 +225,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
         fontSize: 26,
         fontWeight: 'bold',
         marginTop: 10,
-        marginBottom: 30
+        marginBottom: 20
       },
 
       row1: {
@@ -202,14 +285,14 @@ function Login({ route, appReducer, dispatch, navigation }) {
       alreadyTxt: {
         color: '#000000',
         fontSize: 16,
-        marginTop: 48,
+        marginTop: 32,
         textAlign: 'center'
       },
 
       loginTxt: {
         color: '#000000',
         fontSize: 16,
-        marginTop: 48,
+        marginTop: 32,
         marginLeft: 8,
         fontWeight: 'bold'
       },
@@ -219,12 +302,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
         fontSize: 12
       },
 
-      forgotTxt: {
-        color: '#000000',
-        fontSize: 16,
-        marginTop: 10,
-        textAlign: 'center'
-      },
+      
       forgotLabel: {
         color: '#000000',
         fontSize: 16,
@@ -233,10 +311,10 @@ function Login({ route, appReducer, dispatch, navigation }) {
         fontWeight: 'bold'
       },
 
-      forgotTxt: {
-        fontSize: 12,
+      txt3: {
+        fontSize: 10,
         textAlign: 'center',
-        marginTop: 20,
+        marginTop: 15,
         color: '#616160'
       }
 

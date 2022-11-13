@@ -5,6 +5,7 @@ import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
 import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 import {CountryPicker} from "react-native-country-codes-picker";
+import * as types from "../store/actions/types";
 import { ApiConstants } from "../api/ApiConstants";
 import Api from "../api/Api";
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -59,12 +60,21 @@ function Signup({ route, appReducer, dispatch, navigation }) {
       "email": email,
       "phone": countryCode + "" + phone,
       "password": password
-  }
+    }
   
-  setLoading(true)
-  const res = await Api(ApiConstants.BASE_URL + ApiConstants.SIGNIN, data, "POST")
-  setLoading(false)
-  console.log(res)
+    setLoading(true)
+    const res = await Api(ApiConstants.BASE_URL + ApiConstants.SIGNIN, data, "POST")
+    setLoading(false)
+    
+    if (res && res.status == "success"){
+      let data = {...res.data}
+      console.log("Signup:\n", data)
+      dispatch({ type: types.SIGNUP, data })
+    } else if (res && res.message) {
+      alert(res.message)
+    } else {
+      alert("Network Error")
+    }
   }
   
       return (
