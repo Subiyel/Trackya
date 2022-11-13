@@ -63,6 +63,11 @@ function Login({ route, appReducer, dispatch, navigation }) {
   }
 
   const biometricLogin = () => {
+
+    setTimeout(()=> {
+      alert("Apple Developer Account Required")
+    }, 3000)
+
     console.log("FaceID Login")
     setBioLoading(true)
     const rnBiometrics = new ReactNativeBiometrics()

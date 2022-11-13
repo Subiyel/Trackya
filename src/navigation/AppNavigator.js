@@ -4,7 +4,9 @@ import HomeContainer from '../screen/Home';
 import LoginContainer from '../screen/Login';
 import SignupContainer from '../screen/Signup';
 import IntroContainer from '../screen/Intro';
+import ProfileContainer from '../screen/Profile';
 import LandingContainer from '../screen/Landing';
+import ActivateContainer from '../screen/Activate';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -20,7 +22,7 @@ const primaryColor = "#19826d"
 function PayScreen() {
 	return (
 	  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-		<Text>Pay!</Text>
+		<Text>In Progress!</Text>
 	  </View>
 	);
   }
@@ -45,17 +47,16 @@ function BottomTabs() {
             ],
 			tabBarIcon: ({ focused, color, size }) => {
 			  let imgPath = "";
-			  let width = 20
-			  let height = 20	
-			  if (route.name === 'HomeScreen') {
-				imgPath = require('../assets/img/bioLogin/Face_ID.png');
-			  } else if (route.name === 'Saved') {
-				imgPath =  require('../assets/img/bioLogin/Face_ID.png');
-				width = 15
-			  } else if (route.name === 'Pay') {
-				imgPath =  require('../assets/img/bioLogin/Face_ID.png');
-			  } else if (route.name === 'My Profile') {
-				imgPath =  require('../assets/img/bioLogin/Face_ID.png');
+			  let width = 17
+			  let height = 17	
+			  if (route.name === 'Home') {
+				imgPath = require('../assets/img/MenuIcons/home.png');
+			  } else if (route.name === 'QR') {
+				imgPath =  require('../assets/img/MenuIcons/QR.png');
+				width = 35; height = 35;
+			  } else if (route.name === 'Profile') {
+                width = 15; height = 15;
+				imgPath =  require('../assets/img/MenuIcons/user.png');
 			  }
   
 			  // You can return any component that you like here!
@@ -64,10 +65,9 @@ function BottomTabs() {
             
 		  })}
 		>
-			<Tab.Screen name="HomeScreen" component={HomeScreenStack} />
-			<Tab.Screen name="Saved" component={PayScreen} />
-			<Tab.Screen name="Pay" component={PayScreen} />
-			<Tab.Screen name="My Profile" component={PayScreen} />
+			<Tab.Screen name="Home" component={HomeScreenStack} />
+			<Tab.Screen name="QR" component={PayScreen} />
+			<Tab.Screen name="Profile" component={ProfileContainer} />
   		</Tab.Navigator>
 	);
   }
@@ -77,7 +77,8 @@ function BottomTabs() {
 	return (
 	  <HomeStack.Navigator screenOptions={{ headerShown : false }}>
 		
-		<HomeStack.Screen name="Home" component={HomeContainer} />
+		<HomeStack.Screen name="HomeScreen" component={HomeContainer} />
+    <HomeStack.Screen name="ActivateScreen" component={ActivateContainer} />
 
 	  </HomeStack.Navigator>
 	);
