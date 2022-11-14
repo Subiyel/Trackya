@@ -5,6 +5,7 @@
 
     LOGIN: "login",
     SIGNIN: "signup",
+    FETCH_ITEMS: "my-items"
 
    };
 

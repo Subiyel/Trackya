@@ -1,24 +1,46 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, Dimensions, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyImage, MyText, ListButton }  from '../components';
 // import { u } from "../util/utilities";
 import { Provider, connect } from 'react-redux';
 import Overlay from 'react-native-modal-overlay';
+import { useIsFocused } from "@react-navigation/native";
 // import { Icon } from 'react-native-vector-icons/Icon';
 // import AppStateProvider from "../../AppState";
-// import { ApiConstants } from "../api/ApiConstants";
-// import Api from "../api/Api";
-// import * as types from "../store/actions/types";
+import { ApiConstants } from "../api/ApiConstants";
+import Api from "../api/Api";
+import * as types from "../store/actions/types";
 import Icon from 'react-native-vector-icons/FontAwesome';
 const primary = "#19826d"
 
 function Home({ route, appReducer, dispatch, navigation }) {
   
   
-
+  const isFocused = useIsFocused();
   const [activateOtpVisible, toggleActivateOpts] = useState(false);
+  const [myItems, setMyItems] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   // const theme = useContext(AppStateProvider);
   // console.log("Colors: ", theme)
+
+
+    useEffect(() => {
+        if (isFocused) {
+          console.log(appReducer.appReducer)
+          fetchMyItems()
+        }
+    }, [isFocused]);
+
+
+
+    const fetchMyItems = async () => {
+      setLoading(true)
+      const res = await Api(ApiConstants.BASE_URL + ApiConstants.FETCH_ITEMS, null, "GET", appReducer.appReducer.authToken)
+      setLoading(false)
+      setMyItems(res)
+      console.log("res::: ", res)
+    }
+
 
 
     const activateOptions = (option) => {
@@ -102,7 +124,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
                   </View>
 
                   <View style={[styles.row1, { marginTop: 20 }]}>
-                      <ListButton onPress={()=> alert("Comming Soon")} label="My Items" />
+                      <ListButton onPress={()=> navigation.navigate('MyItems')} label="My Items" />
                       <ListButton onPress={()=> alert("Comming Soon")} label="Lost Items" />
                   </View>
 

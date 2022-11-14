@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { Text, View, Image } from 'react-native';
 import HomeContainer from '../screen/Home';
+import IntroContainer from '../screen/Intro';
 import LoginContainer from '../screen/Login';
 import SignupContainer from '../screen/Signup';
-import IntroContainer from '../screen/Intro';
+import MyItemsContainer from '../screen/MyItems';
 import ProfileContainer from '../screen/Profile';
 import LandingContainer from '../screen/Landing';
 import ActivateContainer from '../screen/Activate';
+import ItemDetailContainer from '../screen/ItemDetail';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -78,8 +80,10 @@ function BottomTabs() {
 	  <HomeStack.Navigator screenOptions={{ headerShown : false }}>
 		
 		<HomeStack.Screen name="HomeScreen" component={HomeContainer} />
+    <HomeStack.Screen name="MyItems" component={MyItemsContainer} />
+    <HomeStack.Screen name="ItemDetail" component={ItemDetailContainer} />
     <HomeStack.Screen name="ActivateScreen" component={ActivateContainer} />
-
+    
 	  </HomeStack.Navigator>
 	);
   }

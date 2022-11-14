@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 
-const Api = async (url, param, type) => {
+const Api = async (url, param, type, token) => {
     
 
   try {
@@ -12,13 +12,17 @@ const Api = async (url, param, type) => {
         data: param,
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${token}`
         }
       }
       console.log(type + " " + url, " - ", param)
       const response = await axios(request);
       console.log(response)
       return response.data;
+
+    
+
     } catch (error) {
       console.log("Error: ",error);
     } 
