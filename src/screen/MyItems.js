@@ -17,13 +17,13 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
 
   const DATA = [
       {
-        image: "https://picsum.photos/300/200",
+        image: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-luggage-1554348191.png?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
         title: "Subial Product1",
         description: "This is my First Product",
         status: "Active"
       },
       {
-        image: "https://picsum.photos/300/200",
+        image: "https://images.moneycontrol.com/static-mcnews/2022/04/shopping-bags-g1a48ec005_1920-770x346.jpg?impolicy=website&width=770&height=431",
         title: "Another Product",
         description: "This is my second Product",
         status: "Pending"

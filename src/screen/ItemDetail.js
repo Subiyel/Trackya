@@ -1,8 +1,8 @@
 import React, { useState,useRef } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyText, MyImage, MyButton, CircleBack, MyBack }  from '../components';
+import  { MyText, MyImage, MyButton, CircleBack, MyStatus }  from '../components';
 import { Provider, connect } from 'react-redux';
-import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
+import QRCode from 'react-native-qrcode-svg';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
@@ -21,9 +21,42 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
         <View style={styles.container}>
         <CircleBack {...navigation} />
         <ScrollView>
-          <View style={styles.containerWrapper}>
+          
           
           <MyImage source={{ uri: item.image }} style={styles.img}  />
+
+          <View style={styles.containerWrapper}>
+
+            <View style={styles.row}>
+                <View style={{ marginLeft: 30 }}>
+                <QRCode value="TST7669234468" />
+                </View>
+
+                <View style={{  marginLeft: 20 }}>
+                    <MyText style={styles.title}>{item.title}</MyText>
+                    <MyText style={styles.desc}>{item.description}</MyText>
+                    <MyStatus state={item.status} StatusStyle={{ width: '50%', marginTop: 9 }} />
+                </View>
+
+            </View>   
+
+
+            <View style={{ marginTop: 30, marginHorizontal: 40 }}>
+            
+                <View style={[styles.row, {marginBottom: 8 }]}>
+                    <MyText style={styles.label}>Expiry:</MyText>
+                    <MyText style={styles.expiry}>Wed, Oct 18, 2023 01:54 PM</MyText>
+                </View>
+
+                <View style={styles.row}>
+                    <MyText style={styles.label}>Type:</MyText>
+                    <MyText style={styles.expiry}>Smart Tag</MyText>
+                </View>
+            </View>
+
+
+            <MyButton onPress={()=> alert("Marking as lost..")} label="Mark Item as Lost" buttonStyle={{ marginTop: 80, width: '80%', alignSelf: 'center' }} />
+
 
           </View>
         </ScrollView>
@@ -47,7 +80,9 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
         backgroundColor: "#E1E1E1",
       },
       containerWrapper: {
-        marginHorizontal: 0
+        marginHorizontal: 20,
+        marginTop: 40,
+        marginBottom: 50
       },
 
       row: {
@@ -65,6 +100,30 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
       img: {
         height: 230,
         width: '100%'
+      },
+
+      title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#000',
+      },
+
+      desc: {
+        marginTop: 5,
+        fontSize: 14
+      }, 
+
+      expiry: {
+        fontSize: 14,
+        color: '#222',
+        marginLeft: 10
+      },
+
+    
+
+      label: {
+        fontWeight: 'bold',
+        fontSize: 14
       }
     })
     

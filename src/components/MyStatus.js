@@ -12,7 +12,7 @@ export default function MyStatus(props) {
     }
 
   return (
-        <View style={[styles.status, { backgroundColor: color }]}>
+        <View style={[styles.status, { backgroundColor: color }, props.StatusStyle]}>
             <MyText style={styles.txt}>{props.state}</MyText>
         </View>
   );
@@ -29,7 +29,8 @@ export default function MyStatus(props) {
       },
 
       txt: {
-        fontSize: 11
+        fontSize: 11,
+        textAlign: 'center'
       }
   });
 
