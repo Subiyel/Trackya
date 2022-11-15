@@ -36,15 +36,15 @@ const isNullorEmpty = (value) => {
           if (available && biometryType === BiometryTypes.TouchID) {
             console.log('TouchID is supported')
             isSupported = true
-            type = "Touch_ID"
+            type = "Biometric"
           } else if (available && biometryType === BiometryTypes.FaceID) {
             console.log('FaceID is supported')
             isSupported = true
-            type = "Face_ID"
+            type = "FaceID"
           } else if (available && biometryType === BiometryTypes.Biometrics) {
             console.log('Biometrics is supported')
             isSupported = true
-            type = "Bio"
+            type = "Biometric"
           } else {
             console.log('Biometrics not supported')
           }

@@ -58,7 +58,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
 
     const checkFaceID = async () => {
       console.log("1..")
-      if(!appReducer.appReducer.showFaceID){ //,,..
+      if(appReducer.appReducer.showFaceID){ //,,..
         console.log("checking for FaceID..")
         let { isSupported, type } = await u.checkDeviceBiometrics()
         console.log("isSupported, type",isSupported, type)
@@ -83,8 +83,8 @@ function Home({ route, appReducer, dispatch, navigation }) {
         u.getDevicePublicKey().then((key) => {
           let data = {
             user_id: appReducer.appReducer.id,
-            type: biometricType == "Face_ID" ? "FaceIDs" : "Biometric",
-            hash_id: key,
+            type: biometricType,
+            hash_id: key+"_"+appReducer.appReducer.id,
             status: 1
           }
         

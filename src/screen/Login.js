@@ -33,17 +33,17 @@ function Login({ route, appReducer, dispatch, navigation }) {
     } else if (u.isNullorEmpty(password)){
       alert("Password is mandatory")
     } else {
-      loginUser()
-    }
-  }
-
-  const loginUser = async () => {
-
       let params = {
         "password": password,
         "email": email,
+        "type": ""
       }
-    
+      loginUser(params)
+    }
+  }
+
+  const loginUser = async (params) => {
+
       setLoading(true)
       const res = await Api(ApiConstants.BASE_URL + ApiConstants.LOGIN, params, "POST")
       setLoading(false)
@@ -62,7 +62,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
 
   }
 
-  const biometricLogin = () => {
+  const biometricLogin = async () => {
 
     setTimeout(()=> {
       setBioLoading(false)
@@ -70,58 +70,35 @@ function Login({ route, appReducer, dispatch, navigation }) {
 
     console.log("FaceID Login")
     setBioLoading(true)
-    const rnBiometrics = new ReactNativeBiometrics()
-
-    rnBiometrics.isSensorAvailable()
-      .then((resultObject) => {
-        const { available, biometryType } = resultObject
-
-        if (available && biometryType === BiometryTypes.TouchID) {
-          console.log('TouchID is supported')
-        } else if (available && biometryType === BiometryTypes.FaceID) {
-          console.log('FaceID is supported')
-          sendBiometricLogin()
-        } else if (available && biometryType === BiometryTypes.Biometrics) {
-          console.log('Biometrics is supported')
-        } else {
-          console.log('Biometrics not supported')
-        }
-      })
+    let { isSupported, type } = await u.checkDeviceBiometrics()
+    if (isSupported) {
+      sendBiometricLogin(type)
+    }
       
   }
 
-  const sendBiometricLogin = () => {
-    const rnBiometrics = new ReactNativeBiometrics()
-    // rnBiometrics.createKeys()
-    // .then((resultObject) => {
-    //   const { publicKey } = resultObject
-    //   console.log(publicKey)
-    //   // sendPublicKeyToServer(publicKey)
-    // })
-
+  const sendBiometricLogin = (biometricType) => {
+  // const rnBiometrics = new ReactNativeBiometrics()
   //   rnBiometrics.biometricKeysExist().then((resultObject) => {
   //   const { keysExist } = resultObject
 
   //   if (keysExist) {
-  //     console.log('Keys exist')
+  //     console.log('Keys exist', resultObject)
   //   } else {
   //     console.log('Keys do not exist or were deleted')
   //   }
   // })
 
-  rnBiometrics.simplePrompt({promptMessage: 'Confirm fingerprint'})
-  .then((resultObject) => {
-    const { success } = resultObject
-    console.log("res: ", resultObject)
-    if (success) {
-      console.log('successful biometrics provided')
-    } else {
-      console.log('user cancelled biometric prompt')
-    }
-  })
-  .catch(() => {
-    console.log('biometrics failed')
-  })
+    u.triggerBiometric().then((resultObject) => {
+      let params = {
+        type: biometricType,
+        hash_id: appReducer.appReducer.publicToken,
+      }
+      loginUser(params)  
+    }).catch(() => {
+      setLoading(false)
+      alert("Biometric Auth Failed")
+    })
 
 
   }
