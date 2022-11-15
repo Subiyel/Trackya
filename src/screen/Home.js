@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, Dimensions, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyImage, MyText, ListButton }  from '../components';
-// import { u } from "../util/utilities";
+import  { MyImage, MyText, ListButton, EnableFaceID }  from '../components';
+import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
 import Overlay from 'react-native-modal-overlay';
 import { useIsFocused } from "@react-navigation/native";
@@ -17,9 +17,11 @@ function Home({ route, appReducer, dispatch, navigation }) {
   
   
   const isFocused = useIsFocused();
+  const [faceIDvisible, toggleFaceIDvisible] = useState(false);
   const [activateOtpVisible, toggleActivateOpts] = useState(false);
   const [myItems, setMyItems] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [biometricType, setBiometricType] = useState('Face_ID');
   // const theme = useContext(AppStateProvider);
   // console.log("Colors: ", theme)
 
@@ -27,6 +29,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
     useEffect(() => {
         if (isFocused) {
           console.log(appReducer.appReducer)
+          checkFaceID()
           fetchMyItems()
         }
     }, [isFocused]);
@@ -38,7 +41,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
       const res = await Api(ApiConstants.BASE_URL + ApiConstants.FETCH_ITEMS, null, "GET", appReducer.appReducer.authToken)
       setLoading(false)
       setMyItems(res)
-      console.log("res::: ", res)
+      console.log(res.data)
     }
 
 
@@ -51,6 +54,58 @@ function Home({ route, appReducer, dispatch, navigation }) {
         navigation.navigate('ActivateScreen')
       }
     }
+
+
+    const checkFaceID = async () => {
+      console.log("1..")
+      if(!appReducer.appReducer.showFaceID){ //,,..
+        console.log("checking for FaceID..")
+        let { isSupported, type } = await u.checkDeviceBiometrics()
+        console.log("isSupported, type",isSupported, type)
+        if (isSupported) {
+          setBiometricType(type)
+          toggleFaceIDvisible(true)
+        }
+      }
+    }
+
+
+    const closeFaceID = () => {
+      toggleFaceIDvisible(false)
+      dispatch({ type: types.FACE_ID_POPUP })
+    }
+
+
+    const enableFaceID = () => {
+      
+      setLoading(true)
+      u.triggerBiometric().then((resultObject) => {
+        u.getDevicePublicKey().then((key) => {
+          let data = {
+            user_id: appReducer.appReducer.id,
+            type: biometricType == "Face_ID" ? "FaceIDs" : "Biometric",
+            hash_id: key,
+            status: 1
+          }
+        
+          setLoading(false)
+          closeFaceID()
+          savePublicKey(data)
+        })  
+      }).catch(() => {
+        setLoading(false)
+        alert("Error: Couldnot enable Biometric Login")
+      })
+    }
+
+
+    const savePublicKey = async (data) => {
+      console.log("Data: ", data)
+      const res = await Api(ApiConstants.BASE_URL + ApiConstants.PUBLIC_KEY, data, "POST", appReducer.appReducer.authToken)
+      dispatch({ type: types.ENABLE_FACE_ID, data })
+      console.log(res)
+    }
+
 
 
       return (
@@ -162,7 +217,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
               
             </Overlay>
 
-
+            <EnableFaceID onContinue={()=> enableFaceID()} isLoading={isLoading} isVisible={faceIDvisible} onClose={()=> closeFaceID() } />
           </View>
         </View>
       )

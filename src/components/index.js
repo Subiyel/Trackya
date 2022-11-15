@@ -9,6 +9,7 @@ import MyHeader from "./MyHeader"
 import CircleBack from "./CircleBack"
 import ListButton from "./ListButton"
 import MyBioLogin from "./MyBioLogin"
+import EnableFaceID from "./EnableFaceID"
 
 export {
     MyBack,
@@ -22,4 +23,5 @@ export {
     CircleBack,
     ListButton,
     MyBioLogin,
+    EnableFaceID,
 }

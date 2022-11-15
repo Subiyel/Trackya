@@ -9,14 +9,16 @@ const Api = async (url, param, type, token) => {
       let request = {
         method: type,
         url: url,
-        data: param,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           "Authorization": `Bearer ${token}`
         }
       }
-      console.log(type + " " + url, " - ", param)
+      if (type != "GET"){
+        request.data = param
+      }
+      console.log( request )
       const response = await axios(request);
       console.log(response)
       return response.data;

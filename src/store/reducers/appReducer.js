@@ -6,7 +6,10 @@ const INITIAL_STATE = {
   name: "",
   email: "",
   id: "",
-  authToken: ""
+  authToken: "",
+  showFaceID: true,
+  publicToken: "",
+  isFaceIDenabled: false,
 };
 
 const appReducer = (state = INITIAL_STATE, action) => {
@@ -43,10 +46,30 @@ const appReducer = (state = INITIAL_STATE, action) => {
           };
       }
 
+      
+      case types.FACE_ID_POPUP: {
+        return {
+            ...state,
+            showFaceID: false
+            };
+        }
+    
+        
+      case types.ENABLE_FACE_ID: {
+        return {
+            ...state,
+            isFaceIDenabled: true,
+            publicToken: action.data.hash_id
+            };
+        }
 
-    
-    
-    
+        case types.DISABLE_FACE_ID: {
+          return {
+              ...state,
+              isFaceIDenabled: false
+              };
+          }
+        
 
     default:
       return state

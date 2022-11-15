@@ -65,7 +65,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
   const biometricLogin = () => {
 
     setTimeout(()=> {
-      alert("Apple Developer Account Required")
+      setBioLoading(false)
     }, 3000)
 
     console.log("FaceID Login")
@@ -92,23 +92,38 @@ function Login({ route, appReducer, dispatch, navigation }) {
 
   const sendBiometricLogin = () => {
     const rnBiometrics = new ReactNativeBiometrics()
-    rnBiometrics.createKeys()
-    .then((resultObject) => {
-      const { publicKey } = resultObject
-      console.log(publicKey)
-      // sendPublicKeyToServer(publicKey)
-    })
+    // rnBiometrics.createKeys()
+    // .then((resultObject) => {
+    //   const { publicKey } = resultObject
+    //   console.log(publicKey)
+    //   // sendPublicKeyToServer(publicKey)
+    // })
 
-    rnBiometrics.biometricKeysExist()
+  //   rnBiometrics.biometricKeysExist().then((resultObject) => {
+  //   const { keysExist } = resultObject
+
+  //   if (keysExist) {
+  //     console.log('Keys exist')
+  //   } else {
+  //     console.log('Keys do not exist or were deleted')
+  //   }
+  // })
+
+  rnBiometrics.simplePrompt({promptMessage: 'Confirm fingerprint'})
   .then((resultObject) => {
-    const { keysExist } = resultObject
-
-    if (keysExist) {
-      console.log('Keys exist')
+    const { success } = resultObject
+    console.log("res: ", resultObject)
+    if (success) {
+      console.log('successful biometrics provided')
     } else {
-      console.log('Keys do not exist or were deleted')
+      console.log('user cancelled biometric prompt')
     }
   })
+  .catch(() => {
+    console.log('biometrics failed')
+  })
+
+
   }
   
       return (
