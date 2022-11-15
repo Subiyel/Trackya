@@ -19,6 +19,9 @@ function Home({ route, appReducer, dispatch, navigation }) {
   const isFocused = useIsFocused();
   const [faceIDvisible, toggleFaceIDvisible] = useState(false);
   const [activateOtpVisible, toggleActivateOpts] = useState(false);
+  const [ordersCount, setOrdersCount] = useState(0);
+  const [activeCount, setActiveCount] = useState(0);
+  const [lostCount, setLostCount] = useState(0);
   const [myItems, setMyItems] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [biometricType, setBiometricType] = useState('Face_ID');
@@ -40,8 +43,18 @@ function Home({ route, appReducer, dispatch, navigation }) {
       setLoading(true)
       const res = await Api(ApiConstants.BASE_URL + ApiConstants.FETCH_ITEMS, null, "GET", appReducer.appReducer.authToken)
       setLoading(false)
-      setMyItems(res)
-      console.log(res.data)
+      console.log(res)
+
+      if (res && res.data) {
+        setMyItems(res.data)
+        let i = 0
+        res.data.map((item)=> {
+          if (item.status == "Active"){
+            i++
+          }
+        })
+        setActiveCount(i)
+      }
     }
 
 
@@ -140,7 +153,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
                           <View style={styles.row}>
                                 <Image source={ require('../assets/img/orders.png') } style={styles.boxImg} />
                                 <View style={styles.txtView}>
-                                  <MyText style={styles.boxValue}>2</MyText>
+                                  <MyText style={styles.boxValue}>1</MyText>
                                   <MyText style={styles.boxLabel}>Orders</MyText>
                                 </View>
                           </View>
@@ -151,7 +164,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
                           <View style={styles.row}>
                                 <Image source={ require('../assets/img/active.png') } style={styles.boxImg} />
                                 <View style={styles.txtView}>
-                                  <MyText style={styles.boxValue}>3</MyText>
+                                  <MyText style={styles.boxValue}>{activeCount}</MyText>
                                   <MyText style={styles.boxLabel}>Active</MyText>
                                 </View>
                           </View>

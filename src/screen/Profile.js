@@ -9,6 +9,7 @@ import * as types from "../store/actions/types";
 import { ApiConstants } from "../api/ApiConstants";
 import Api from "../api/Api";
 import Icon from 'react-native-vector-icons/Ionicons';
+import ToggleSwitch from 'toggle-switch-react-native'
 
 const width = Dimensions.get('window').width;
 
@@ -18,6 +19,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
   
   const [countryCode, setCountryCode] = useState('+92');
   const [countryPicker, setCountryPicker] = useState(false);
+  const [biometricSwitch, toggleBiometricSwitch] = useState(appReducer.appReducer.isFaceIDenabled);
   const [password, setPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [email, setEmail] = useState(appReducer.appReducer.email);
@@ -79,6 +81,48 @@ function Profile({ route, appReducer, dispatch, navigation }) {
       alert("Network Error")
     }
   }
+
+
+  const enableFaceID = async (state) => {
+    toggleBiometricSwitch(state)  
+    setLoading(true)
+    let { isSupported, type } = await u.checkDeviceBiometrics()
+    if (isSupported) {
+      u.triggerBiometric().then((resultObject) => {
+        u.getDevicePublicKey().then((key) => {
+          let data = {
+            user_id: appReducer.appReducer.id,
+            type: type,
+            hash_id: key+"_"+appReducer.appReducer.id,
+            status: state ? 1 : 0
+          }
+        
+          setLoading(false)
+          savePublicKey(data, state)
+        })  
+      }).catch(() => {
+        setLoading(false)
+        alert("Error: Couldnot enable Biometric Login")
+      })
+    } else {
+      alert("Device not supported for Biometric")
+      toggleBiometricSwitch(false)
+    }
+  }
+
+
+  const savePublicKey = async (data, state) => {
+    console.log("Data: ", data)
+    const res = await Api(ApiConstants.BASE_URL + ApiConstants.PUBLIC_KEY, data, "POST", appReducer.appReducer.authToken)
+    if (state) {
+      dispatch({ type: types.ENABLE_FACE_ID, data })
+    } else {
+      dispatch({ type: types.DISABLE_FACE_ID })
+    }
+    console.log(res)
+  }
+
+  
   
       return (
 
@@ -157,6 +201,19 @@ function Profile({ route, appReducer, dispatch, navigation }) {
 
             <MyButton isLoading={isLoading} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Update'} />
 
+
+            <View style={styles.row1}>
+              <MyText>Biometric Login Enable</MyText>
+              <ToggleSwitch
+                  isOn={biometricSwitch}
+                  onColor="green"
+                  offColor="red"
+                  // label="Example label"
+                  // labelStyle={{ color: "black", fontWeight: "900" }}
+                  size="small"
+                  onToggle={isOn => enableFaceID(isOn)}
+                />
+            </View>
 
             <MyText style={{ textAlign: 'center', fontSize: 10, color: '#00000060', marginTop: 75, marginBottom: 10 }}>
             © 2022 . Trackya v1.0
