@@ -7,7 +7,7 @@ import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter
 import {CountryPicker} from "react-native-country-codes-picker";
 import * as types from "../store/actions/types";
 import { ApiConstants } from "../api/ApiConstants";
-import Api from "../api/Api";
+import ApiFormData from "../api/ApiFromData";
 import Icon from 'react-native-vector-icons/Ionicons';
 import ModalSelector from 'react-native-modal-selector'
 import { useIsFocused } from "@react-navigation/native";
@@ -28,6 +28,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
 
   const [itemDesc, setItemDesc] = useState('');
   const [imagePath, setImagePath] = useState(null);
+  const [imageType, setImageType] = useState(null);
 
   
   const [countryCode, setCountryCode] = useState('+92');
@@ -76,6 +77,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
       console.log(result)
       if (result && result.assets && result.assets.length > 0) {
         setImagePath(result.assets[0].uri)
+        setImageType(result.assets[0].type)
       }
     }
 
@@ -90,23 +92,33 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
     }
 
     const submitReport = async () => {
-        let data = {
-            "uid": route.params.code,
-            "first_name": firstName,
-            "last_name": lastName,
-            "email": email,
-            "phone": countryCode + "" + phone,
-            "message": itemDesc
-        }
-    
-        console.log("Submiting..", data)
+
+      const form = new FormData();
+
+      if(!u.isNullorEmpty(imagePath)){
+        form.append('image', {
+          uri: imagePath,
+          type: imageType,
+          name: imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.length),
+        })
+      }
+
+      form.append("uid", route.params.code)
+      form.append("first_name", firstName)
+      form.append("last_name", lastName)
+      form.append("email", email)
+      form.append("phone", countryCode + "" + phone)
+      form.append("message", itemDesc)
+      
+      
+        console.log("FormData: ", form)
         setLoading(true)
-        const res = await Api(ApiConstants.BASE_URL + ApiConstants.LOST_ITEM, data, "POST")
+        const res = await ApiFormData(ApiConstants.BASE_URL + ApiConstants.LOST_ITEM, form, "POST")
         setLoading(false)
-        alert("Report Submitted! Thank you")
-        if (res && res.status == "success"){
-        console.log("Signup:\n", data)
-        // dispatch({ type: types.SIGNUP, data })
+        console.log("Response:\n", res)
+        
+        if (res && res.status == "success" && res.message) {
+        alert(res.message)
         } else if (res && res.message) {
         alert(res.message)
         } else {

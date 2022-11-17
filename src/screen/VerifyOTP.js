@@ -23,12 +23,14 @@ function VerifyOTP({ route, appReducer, dispatch, navigation }) {
   const [otp3, setOtp3] = useState('');
   const [otp4, setOtp4] = useState('');
   const [otp5, setOtp5] = useState('');
+  const [otp6, setOtp6] = useState('');
   
   let inputRef1 = null;
   let inputRef2 = null;
   let inputRef3 = null;
   let inputRef4 = null;
   let inputRef5 = null;
+  let inputRef6 = null;
 
 
   const onOtpEnter = (text, index) => {
@@ -63,7 +65,14 @@ function VerifyOTP({ route, appReducer, dispatch, navigation }) {
       break;
 
       case 5:
+        if (text != ''){
+          inputRef6.focus()
+        }
         setOtp5(text)
+      break;
+
+      case 6:
+        setOtp6(text)
       break;
 
 
@@ -72,7 +81,7 @@ function VerifyOTP({ route, appReducer, dispatch, navigation }) {
 
   const verifyOTP = () => {
     
-    let otpCode = otp1 + otp2 + otp3 + otp4 + otp5
+    let otpCode = otp1 + otp2 + otp3 + otp4 + otp5 +otp6
     console.log("otp: ", otpCode)
     if(otpCode.length < 5){
       alert("Please enter complete code")
@@ -88,17 +97,18 @@ function VerifyOTP({ route, appReducer, dispatch, navigation }) {
       otp: otp
   }
   
-    // setLoading(true)
-    // const res = await Api(ApiConstants.BASE_URL + ApiConstants.VALIDATE_OTP, data, "POST")
-    // setLoading(false)
-    //     if(res && res.status == "success" ) {
-    //         console.log("Validated OTP.. ", route)
+    setLoading(true)
+    const res = await Api(ApiConstants.BASE_URL + ApiConstants.VERIFY_OTP, data, "POST")
+    setLoading(false)
+
+        if(res && res.status == "success" ) {
+            console.log("Validated OTP.. ", route)
             navigation.navigate('ResetPassword', data )
-    //     } else if (res && res.status != "success") {
-    //         alert(res.message)
-    //     } else {
-    //         alert("Server Down")
-    //     }
+        } else if (res && res.status != "success") {
+            alert(res.message)
+        } else {
+            alert("Server Down")
+        }
   }
 
   
@@ -124,7 +134,8 @@ function VerifyOTP({ route, appReducer, dispatch, navigation }) {
               <TextInput ref={(r) => inputRef2 = r} value={ otp2 } onChangeText={(text)=> onOtpEnter(text, 2) } style={ otp2 == '' ? styles.otp : styles.otpFilled } maxLength={1} keyboardType = 'numeric' onKeyPress={({ nativeEvent }) => {nativeEvent.key === 'Backspace' && otp2 == '' && inputRef1.focus() }} />
               <TextInput ref={(r) => inputRef3 = r} value={ otp3 } onChangeText={(text)=> onOtpEnter(text, 3) } style={ otp3 == '' ? styles.otp : styles.otpFilled } maxLength={1} keyboardType = 'numeric' onKeyPress={({ nativeEvent }) => {nativeEvent.key === 'Backspace' && otp3 == '' && inputRef2.focus() }} />
               <TextInput ref={(r) => inputRef4 = r} value={ otp4 } onChangeText={(text)=> onOtpEnter(text, 4) } style={ otp4 == '' ? styles.otp : styles.otpFilled } maxLength={1} keyboardType = 'numeric' onKeyPress={({ nativeEvent }) => {nativeEvent.key === 'Backspace' && otp4 == '' && inputRef3.focus() }} />
-              <TextInput ref={(r) => inputRef5 = r} value={ otp5 } onChangeText={(text)=> onOtpEnter(text, 5) } style={ otp4 == '' ? styles.otp : styles.otpFilled } maxLength={1} keyboardType = 'numeric' onKeyPress={({ nativeEvent }) => {nativeEvent.key === 'Backspace' && otp5 == '' && inputRef4.focus() }} />
+              <TextInput ref={(r) => inputRef5 = r} value={ otp5 } onChangeText={(text)=> onOtpEnter(text, 5) } style={ otp5 == '' ? styles.otp : styles.otpFilled } maxLength={1} keyboardType = 'numeric' onKeyPress={({ nativeEvent }) => {nativeEvent.key === 'Backspace' && otp5 == '' && inputRef4.focus() }} />
+              <TextInput ref={(r) => inputRef6 = r} value={ otp6 } onChangeText={(text)=> onOtpEnter(text, 6) } style={ otp6 == '' ? styles.otp : styles.otpFilled } maxLength={1} keyboardType = 'numeric' onKeyPress={({ nativeEvent }) => {nativeEvent.key === 'Backspace' && otp6 == '' && inputRef5.focus() }} />
               </View>
                     
 

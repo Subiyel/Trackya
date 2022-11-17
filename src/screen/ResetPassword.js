@@ -75,11 +75,12 @@ console.log("route", route)
   const ResetPassword = async () => {
         let data = {
             email: route.params.email,
-            password
+            new_password: password,
+            otp: route.params.otp
         }  
         console.log("params: ", data)
         setLoading(true)
-        const res = await Api(ApiConstants.BASE_URL + ApiConstants.REST_PASS, data, "POST")
+        const res = await Api(ApiConstants.BASE_URL + ApiConstants.RESET_PASS, data, "POST")
         setLoading(false)
         if(res && res.status == "success" ){
          alert(res.message)

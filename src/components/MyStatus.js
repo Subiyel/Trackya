@@ -9,6 +9,8 @@ export default function MyStatus(props) {
 
     if (props.state == "Active") {
         color = "#05E822"
+    } else if (props.state == "Lost") {
+      color = "#ff471a"
     }
 
   return (

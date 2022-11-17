@@ -16,6 +16,10 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
   const [item, setItem] = useState(route.params.item);
   console.log(route.params)
 
+  const markLost = () => {
+    navigation.navigate('MarkLost', {item})
+  }
+
       return (
 
         <View style={styles.container}>
@@ -29,13 +33,13 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
 
             <View style={styles.row}>
                 <View style={{ marginLeft: 30 }}>
-                <QRCode value="TST7669234468" />
+                <QRCode value={item.qr_code} />
                 </View>
 
                 <View style={{  marginLeft: 20 }}>
                     <MyText style={styles.title}>{item.title}</MyText>
                     <MyText style={styles.desc}>{item.description}</MyText>
-                    <MyStatus state={item.status} StatusStyle={{ width: '50%', marginTop: 9 }} />
+                    <MyStatus state={item.status} StatusStyle={{ marginTop: 9 }} />
                 </View>
 
             </View>   
@@ -45,17 +49,17 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
             
                 <View style={[styles.row, {marginBottom: 8 }]}>
                     <MyText style={styles.label}>Expiry:</MyText>
-                    <MyText style={styles.expiry}>Wed, Oct 18, 2023 01:54 PM</MyText>
+                    <MyText style={styles.expiry}>{item.expiry}</MyText>
                 </View>
 
                 <View style={styles.row}>
                     <MyText style={styles.label}>Type:</MyText>
-                    <MyText style={styles.expiry}>Smart Tag</MyText>
+                    <MyText style={styles.expiry}>{item.type}</MyText>
                 </View>
             </View>
 
 
-            <MyButton onPress={()=> alert("Marking as lost..")} label="Mark Item as Lost" buttonStyle={{ marginTop: 80, width: '80%', alignSelf: 'center' }} />
+            <MyButton onPress={()=> markLost()} label="Mark Item as Lost" buttonStyle={{ marginTop: 80, width: '80%', alignSelf: 'center' }} />
 
 
           </View>

@@ -15,6 +15,8 @@ import VerifyOTPContainer from '../screen/VerifyOTP';
 import ResetPasswordContainer from '../screen/ResetPassword';
 import QrActivateContainer from '../screen/QrActivate';
 import LostFormContainer from '../screen/LostForm';
+import LostItemsContainer from '../screen/LostItems';
+import MarkLostContainer from '../screen/MarkLost';
 
 
 
@@ -92,6 +94,8 @@ function BottomTabs() {
     <HomeStack.Screen name="MyItems" component={MyItemsContainer} />
     <HomeStack.Screen name="ItemDetail" component={ItemDetailContainer} />
     <HomeStack.Screen name="ActivateScreen" component={ActivateContainer} />
+    <HomeStack.Screen name="LostItems" component={LostItemsContainer} />
+    <HomeStack.Screen name="MarkLost" component={MarkLostContainer} />
     
 	  </HomeStack.Navigator>
 	);

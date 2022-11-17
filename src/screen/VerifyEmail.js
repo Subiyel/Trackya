@@ -26,19 +26,19 @@ function VerifyEmail({ route, appReducer, dispatch, navigation }) {
       if(!u.validateEmail(email)){
         alert("Please enter valid email")
       } else {
-
+          
           setLoading(true)
-        //   const res = await Api(ApiConstants.BASE_URL + ApiConstants.GENERATE_OTP, {email: email.toLowerCase()}, "POST")
+          const res = await Api(ApiConstants.BASE_URL + ApiConstants.VERIFY_EMAIL, {email: email.toLowerCase()}, "POST")
           setLoading(false)
 
-        //   if(res && res.status && res.status == "success" ){
-        //     console.log("OTP: ", res)
+          if(res && res.status && res.status == "success" ){
+            console.log("OTP: ", res)
             navigation.navigate('VerifyOTP', {params: {"email": email.toLowerCase()}})
-        //   } else if (res && res.status != "success") {
-        //     alert(res.message)
-        //   } else {
-        //     alert("Server Down")
-        //   }
+          } else if (res && res.status != "success") {
+            alert(res.message)
+          } else {
+            alert("Server Down")
+          }
 
       }
   }
