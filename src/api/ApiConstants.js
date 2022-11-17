@@ -6,7 +6,7 @@
     LOGIN: "login",
     SIGNIN: "signup",
     PUBLIC_KEY: "enable-biometric-or-face_id",
-    FETCH_ITEMS: "my-items"
-
+    FETCH_ITEMS: "my-items",
+    LOST_ITEM: "item-return",
    };
 
