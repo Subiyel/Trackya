@@ -111,7 +111,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
           <View style={styles.containerWrapper}>
           
           
-              <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} resizeMode={'contain'} />
+              <Image source={ require('../assets/img/logo.png') } style={styles.logo} resizeMode={'contain'} />
               <MyText style={styles.txt1}>Proceed with your</MyText>
               <MyText style={styles.txt2}>Login</MyText>
 

@@ -8,28 +8,28 @@ import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
 import Api from "../api/Api";
+import { useIsFocused } from "@react-navigation/native";
+
 
 function MyItems({ route, appReducer, dispatch, navigation }) {
   
 
+  const isFocused = useIsFocused();
+  const [itemList, setItemList] = useState([]);
 
-  const [password, setPassword] = useState('');
+  
 
-  const DATA = [
-      {
-        image: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-luggage-1554348191.png?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
-        title: "Subial Product1",
-        description: "This is my First Product",
-        status: "Active"
-      },
-      {
-        image: "https://images.moneycontrol.com/static-mcnews/2022/04/shopping-bags-g1a48ec005_1920-770x346.jpg?impolicy=website&width=770&height=431",
-        title: "Another Product",
-        description: "This is my second Product",
-        status: "Pending"
+
+    useEffect(() => {
+      if (isFocused) {
+        console.log("data ", route.params.items)
+
+        if (route.params && route.params.items && route.params.items.length > 0) {
+          setItemList(route.params.items)
+        }
+        
       }
-  ]
- 
+    }, [isFocused]);
 
       return (
 
@@ -39,7 +39,7 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
           <View style={styles.containerWrapper}>
            
            {
-              DATA.map((item, index) => {
+              itemList.map((item, index) => {
               return(
                   <MyItem
                     key={index}

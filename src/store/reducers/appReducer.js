@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   showFaceID: true,
   publicToken: "",
   isFaceIDenabled: false,
+  isFirstTime: true,
 };
 
 const appReducer = (state = INITIAL_STATE, action) => {
@@ -69,6 +70,14 @@ const appReducer = (state = INITIAL_STATE, action) => {
               isFaceIDenabled: false
               };
           }
+
+
+      case types.SLIDER_VISITED: {
+        return {
+            ...state,
+            isFirstTime: false
+            };
+        }  
         
 
     default:

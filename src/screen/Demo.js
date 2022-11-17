@@ -7,14 +7,20 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
+import { useIsFocused } from "@react-navigation/native";
 import Api from "../api/Api";
 
 function MyItems({ route, appReducer, dispatch, navigation }) {
   
 
-
+  const isFocused = useIsFocused();
   const [password, setPassword] = useState('');
 
+    useEffect(() => {
+      if (isFocused) {
+        console.log(appReducer.appReducer)
+      }
+  }, [isFocused]);
   
       return (
 

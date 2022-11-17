@@ -22,7 +22,7 @@ function Landing({ route, appReducer, dispatch, navigation }) {
           <View style={styles.containerWrapper}>
 
           <MyText style={styles.title}>Welcome to</MyText>
-          <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} />
+          <Image source={ require('../assets/img/logo.png') } style={styles.logo} />
           
           <View style={{ marginTop: 50, marginBottom: 20 }}>
             <TouchableOpacity onPress={()=> navigation.navigate('Login') } style={styles.bigButton}>

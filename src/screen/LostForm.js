@@ -11,6 +11,7 @@ import Api from "../api/Api";
 import Icon from 'react-native-vector-icons/Ionicons';
 import ModalSelector from 'react-native-modal-selector'
 import { useIsFocused } from "@react-navigation/native";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 
 const width = Dimensions.get('window').width;
@@ -26,6 +27,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
   const [qrCode3, setQrCode3] = useState('');
 
   const [itemDesc, setItemDesc] = useState('');
+  const [imagePath, setImagePath] = useState(null);
 
   
   const [countryCode, setCountryCode] = useState('+92');
@@ -55,9 +57,9 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
         if (isFocused) {
             console.log(route.params)
             if(route.params.code && route.params.code.length > 8) {
-                setQrCode1(route.params.code.substring(0,3))
-                setQrCode2(route.params.code.substring(3,8))
-                setQrCode3(route.params.code.substring(8,13))
+                setQrCode1(route.params.code.substring(0,5))
+                setQrCode2(route.params.code.substring(5,10))
+                setQrCode3(route.params.code.substring(10,14))
             } else {
                 alert("Qr Code is not valid")
             }
@@ -65,6 +67,17 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
     }, [isFocused]);
 
 
+
+    const openCamera = async () => {
+      const options = {
+        mediaType: "photo"
+      }
+      const result = await launchCamera(options);
+      console.log(result)
+      if (result && result.assets && result.assets.length > 0) {
+        setImagePath(result.assets[0].uri)
+      }
+    }
 
 
 
@@ -87,25 +100,25 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
         }
     
         console.log("Submiting..", data)
-        // setLoading(true)
-        // const res = await Api(ApiConstants.BASE_URL + ApiConstants.SIGNIN, data, "POST")
-        // setLoading(false)
-        
-        // if (res && res.status == "success"){
-        // let data = {...res.data}
-        // console.log("Signup:\n", data)
+        setLoading(true)
+        const res = await Api(ApiConstants.BASE_URL + ApiConstants.LOST_ITEM, data, "POST")
+        setLoading(false)
+        alert("Report Submitted! Thank you")
+        if (res && res.status == "success"){
+        console.log("Signup:\n", data)
         // dispatch({ type: types.SIGNUP, data })
-        // } else if (res && res.message) {
-        // alert(res.message)
-        // } else {
-        // alert("Network Error")
-        // }
+        } else if (res && res.message) {
+        alert(res.message)
+        } else {
+        alert("Network Error")
+        }
     }
   
       return (
 
         <View style={styles.container}>
           <MyBack  {...navigation} />
+          <ScrollView>
           <View style={styles.containerWrapper}>
           
           
@@ -201,7 +214,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
 
                 <View style={styles.fullView}> 
                     <MyText style={ styles.fieldText }>Upload Image (Optional)</MyText>   
-                    <TouchableOpacity style={styles.codeButton} onPress={()=> alert('4')}>
+                    <TouchableOpacity style={styles.codeButton} onPress={()=> openCamera()}>
                       <MyText style={styles.codeTxt}>Upload</MyText>
                     </TouchableOpacity>
                 </View>
@@ -209,6 +222,16 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
             </View>
 
 
+            <TouchableOpacity onPress={()=> openCamera() } style={styles.coverButton}>
+             { imagePath == null ?
+                <View style={{ justifyContent: 'center',  }}>
+                    <Icon name={ "camera" } size={23} color="#00000060" style={{ alignSelf: 'center' }} />
+                    <MyText style={{ color: "#00000060", marginTop: 5 }}>Add Photo</MyText>
+                </View>
+                : 
+                <Image source={{ uri: imagePath }}  style={{ width: '100%', height: 150 }} />
+                }
+            </TouchableOpacity>  
            
 
 
@@ -219,6 +242,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
         
 
           </View>
+          </ScrollView>
         </View>
       )
     }
@@ -423,7 +447,17 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
         textAlign: 'center',
         marginTop: 20,
         color: '#616160'
-      }
+      },
+
+      coverButton: {
+        backgroundColor: '#e8e8e8',
+        height: 150,
+        width: '100%',
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 2
+    },
 
     })
     

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, Dimensions, FlatList, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyText }  from '../components';
 // import { u } from "../util/utilities";
@@ -6,15 +6,30 @@ import { Provider, connect } from 'react-redux';
 // import AppStateProvider from "../../AppState";
 import Ion from 'react-native-vector-icons/Ionicons';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import * as types from "../store/actions/types";
+import { useIsFocused } from "@react-navigation/native";
+
 const primary = "#19826d"
 function Intro({ route, appReducer, dispatch, navigation }) {
   
   
+  const isFocused = useIsFocused();
 
 //   const [email, setEmail] = useState('');
 
+  useEffect(() => {
+    if (isFocused) {
+      console.log(appReducer.appReducer)
+      if(!appReducer.appReducer.isFirstTime){
+        navigation.navigate('Landing')
+      }
+    }
+  }, [isFocused]);
 
-const slides = [
+
+
+
+  const slides = [
     {
       key: 'one',
       title: 'Use Smart Tags',
@@ -62,7 +77,7 @@ const _renderItem = ({ item }) => {
 
   const _renderDoneButton = () => {
     return (
-      <TouchableOpacity onPress={()=> navigation.navigate('Landing') } style={styles.buttonCircleDone}>
+      <TouchableOpacity onPress={()=> onDone() } style={styles.buttonCircleDone}>
         <Ion
           name="md-checkmark"
           color="rgba(255, 255, 255, .9)"
@@ -71,6 +86,14 @@ const _renderItem = ({ item }) => {
       </TouchableOpacity>
     );
   };
+
+
+  const onDone = () => {
+    dispatch({ type: types.SLIDER_VISITED})
+    navigation.navigate('Landing')
+  }
+
+
 
       return (
 

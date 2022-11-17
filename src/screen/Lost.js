@@ -16,7 +16,9 @@ function Lost({ route, appReducer, dispatch, navigation }) {
   const [isLoading, setLoading] = useState(false);
  
   const onQRdetect = (code) => {
-      navigation.navigate('LostForm', {code})
+      let arr = code.split("https://trackya.co.uk/return/")
+      console.log("split: ", arr)
+      navigation.navigate('LostForm', {code: arr[1]})
   };
 
   

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, Dimensions, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyImage, MyText, ListButton, EnableFaceID }  from '../components';
+import  { MyImage, MyText, AppIconBtn, EnableFaceID }  from '../components';
 import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
 import Overlay from 'react-native-modal-overlay';
@@ -10,7 +10,8 @@ import { useIsFocused } from "@react-navigation/native";
 import { ApiConstants } from "../api/ApiConstants";
 import Api from "../api/Api";
 import * as types from "../store/actions/types";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Feather';
+import { variable } from '../util/Variables';
 const primary = "#19826d"
 
 function Home({ route, appReducer, dispatch, navigation }) {
@@ -123,116 +124,126 @@ function Home({ route, appReducer, dispatch, navigation }) {
 
       return (
 
-        <View style={styles.container}>
-          <View style={styles.containerWrapper}>
-
-
-              <View style={styles.card}>
-                <View style={styles.row1}>
-                    <View>
-
-                      <View style={styles.row}>
-                        <MyText style={styles.welcome}>Welcome</MyText>
-                        <MyText style={styles.username}>{appReducer.appReducer.name}</MyText>
-                      </View>
-
-                      <MyText style={styles.txt1}>To Trackya Dashboard</MyText>
-
-                    </View>
-
-                      <MyImage source={ require('../assets/img/logo.png') } style={styles.logo} resizeMode={'contain'} />
-                  </View>
-              </View>
-
-
-              <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-              <View style={styles.row1}>
-              
-                  {/* ======= Orders ====== */}
-                    <View style={styles.countBox1}>
-                          <View style={styles.row}>
-                                <Image source={ require('../assets/img/orders.png') } style={styles.boxImg} />
-                                <View style={styles.txtView}>
-                                  <MyText style={styles.boxValue}>1</MyText>
-                                  <MyText style={styles.boxLabel}>Orders</MyText>
-                                </View>
-                          </View>
-                    </View>
-
-                  {/* ======= Active ====== */}
-                    <View style={styles.countBox2}>
-                          <View style={styles.row}>
-                                <Image source={ require('../assets/img/active.png') } style={styles.boxImg} />
-                                <View style={styles.txtView}>
-                                  <MyText style={styles.boxValue}>{activeCount}</MyText>
-                                  <MyText style={styles.boxLabel}>Active</MyText>
-                                </View>
-                          </View>
-                    </View>
-
-                  {/* ======= Lost ====== */}
-                    <View style={styles.countBox3}>
-                          <View style={styles.row}>
-                                <Image source={ require('../assets/img/lost.png') } style={styles.boxImg} />
-                                <View style={styles.txtView}>
-                                  <MyText style={styles.boxValue}>0</MyText>
-                                  <MyText style={styles.boxLabel}>Lost</MyText>
-                                </View>
-                          </View>
-                    </View>
-
-              </View>
-              </View>
-
-            <View style={{ marginTop: 70, marginHorizontal: 20 }}>
-
-                  <View style={[styles.row1, { marginTop: 20 }]}>
-                      <ListButton onPress={()=> toggleActivateOpts(true)} label="Activate" />
-                      <ListButton onPress={()=> alert("Comming Soon")} label="Orders" />
-                  </View>
-
-                  <View style={[styles.row1, { marginTop: 20 }]}>
-                      <ListButton onPress={()=> navigation.navigate('MyItems')} label="My Items" />
-                      <ListButton onPress={()=> alert("Comming Soon")} label="Lost Items" />
-                  </View>
-
-                  <View style={[styles.row1, { marginTop: 20 }]}>
-                      <ListButton onPress={()=> alert("Comming Soon")} label="Transactions" />
-                      <ListButton onPress={()=> alert("Comming Soon")} label="Address" />
-                  </View>
-
-
-            </View>
-
-
-
-
-            <Overlay onClose={()=> toggleActivateOpts(false)} visible={activateOtpVisible} childrenWrapperStyle={{ borderRadius: 12 }} closeOnTouchOutside>
-              <MyText style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginVertical: 10 }}>Please select Activation Method</MyText>
-              
-              <View style={[styles.row1, { width: '90%', marginTop: 20 }]}>
-                <TouchableOpacity onPress={()=> activateOptions(1)}>
-                <View style={styles.btn}>
-                    <Image source={ require("../assets/img/MenuIcons/QR.png") } style={{ height: 90, width: 90,  }} resizeMode={'contain'} />
-                </View>   
-                <MyText style={styles.Txt}>Scan QR Code</MyText>  
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={()=> activateOptions(2)}>
-                <View style={styles.btn}> 
-                    <Image source={ require("../assets/img/form.png") } style={{ height: 90, width: 90,  }} resizeMode={'contain'} /> 
-                </View>
-                <MyText style={styles.Txt}>Manually Enter</MyText>
-                </TouchableOpacity>
-
-              </View>
-
-              
-            </Overlay>
-
-            <EnableFaceID onContinue={()=> enableFaceID()} isLoading={isLoading} isVisible={faceIDvisible} onClose={()=> closeFaceID() } />
-          </View>
+     <View style={styles.wrapper}>
+      <View style={styles.header}>
+        <View style={styles.welcomeContainer}>
+          <Text style={styles.h1}>Welcome,</Text>
+          <Text style={styles.h2}>{"UMAR"}</Text>
         </View>
+        <View style={styles.iconWrapper}>
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.iconTxt}>Logout</Text>
+            <Icon style={styles.icon} name="arrow-right-circle" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.bookingCountContainer}>
+        <Text style={styles.bookingCountTxt}>
+          Welcome to our lost & found platform.
+        </Text>
+      </View>
+
+      <View style={styles.flexRow}>
+        <AppIconBtn
+          type="feather"
+          icon="location"
+          text="Tracker"
+          // onPress={() => this.props.navigation.navigate("Shift Controls")}
+        />
+      </View>
+
+      {/* <AppBannerTitle text="Quick Access" icon="gesture-tap-button" /> */}
+
+      <View style={styles.flexRow}>
+        <AppIconBtn
+          type="feather"
+          icon="send"
+          text="Activate"
+          onPress={() => navigation.navigate("ActivateScreen")}
+        />
+        <AppIconBtn
+          type="feather"
+          icon="list"
+          text="My Items"
+          onPress={() => navigation.navigate("MyItems", {items: myItems})}
+        />
+      </View>
+
+      <View style={styles.flexRow}>
+        <AppIconBtn
+          type="feather"
+          icon="notifications"
+          text="Alerts"
+          // onPress={() => this.props.navigation.navigate("Notify Staff")}
+        />
+        <AppIconBtn
+          type="feather"
+          icon="list"
+          text="Lost Items"
+          onPress={() => navigation.navigate("LostItems")}
+        />
+
+        <AppIconBtn
+          type="feather"
+          icon="person-add-outline"
+          text="Support"
+          //onPress={() => this.props.navigation.navigate("Active Users")}
+        />
+
+        <Overlay
+          onClose={() => toggleActivateOpts(false)}
+          visible={activateOtpVisible}
+          childrenWrapperStyle={{ borderRadius: 12 }}
+          closeOnTouchOutside
+        >
+          <MyText
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              textAlign: "center",
+              marginVertical: 10,
+            }}
+          >
+            Please select Activation Method
+          </MyText>
+
+          <View style={[styles.row1, { width: "90%", marginTop: 20 }]}>
+            <TouchableOpacity onPress={() => activateOptions(1)}>
+              <View style={styles.btn}>
+                <Image
+                  source={require("../assets/img/MenuIcons/QR.png")}
+                  style={{ height: 90, width: 90 }}
+                  resizeMode={"contain"}
+                />
+              </View>
+              <MyText style={styles.Txt}>Scan QR Code</MyText>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => activateOptions(2)}>
+              <View style={styles.btn}>
+                <Image
+                  source={require("../assets/img/form.png")}
+                  style={{ height: 90, width: 90 }}
+                  resizeMode={"contain"}
+                />
+              </View>
+              <MyText style={styles.Txt}>Manually Enter</MyText>
+            </TouchableOpacity>
+          </View>
+        </Overlay>
+
+        <EnableFaceID
+          onContinue={() => enableFaceID()}
+          isLoading={isLoading}
+          isVisible={faceIDvisible}
+          onClose={() => closeFaceID()}
+        />
+      </View>
+    </View>
       )
     }
     
@@ -244,125 +255,112 @@ function Home({ route, appReducer, dispatch, navigation }) {
 
 
     const styles = StyleSheet.create({
-      scrollview: {
-        backgroundColor: '#000000',
-      },
-      container: {
+      
+      
+      wrapper: {
         flex: 1,
-        backgroundColor: "#E1E1E1"
+        backgroundColor: variable.background,
       },
-      containerWrapper: {
+    
+      header: {
+        height: 110,
+        flexDirection: "row",
+        backgroundColor: variable.primary,
+      },
+      welcomeContainer: {
+        flex: 1.5,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+      },
+      h1: {
+        fontSize: 18,
+        color: variable.white,
+        paddingRight: 2,
+      },
+      h2: {
+        fontSize: 18,
+        fontWeight: "500",
+        color: variable.white,
+        paddingLeft: "35%",
+      },
+    
+      iconWrapper: {
         flex: 1,
-        marginTop: 35,
-        // justifyContent: 'space-between',
+        justifyContent: "center",
       },
-
-      logo: { 
-        height: 45,
-        width: 180,
-        marginTop: 0,
-        alignSelf: 'center',
+      iconContainer: {
+        backgroundColor: variable.secondary,
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10,
+        flexDirection: "row",
+        paddingTop: 15,
+        paddingBottom: 15,
+        alignItems: "center",
+        justifyContent: "center",
+        borderLeftWidth: 0.1,
+        borderBottomWidth: 0.1,
+        borderTopWidth: 0.1,
+        borderColor: variable.black,
+        shadowColor: variable.black,
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
       },
-
-      row: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
+      iconTxt: {
+        color: variable.white,
+        fontWeight: "500",
+        paddingRight: 2,
+        fontSize: variable.lgFontSize,
       },
-
-      row1: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+      icon: {
+        color: variable.white,
+        paddingLeft: 2,
+        fontSize: variable.lgFontSize,
       },
-
-      card: {
-        backgroundColor: "#FFFFFF",
-        padding: 15,
-        borderRadius: 8,
-        marginTop: 0,
-        marginHorizontal: 20
+    
+      bookingCountContainer: {
+        backgroundColor: variable.secondary,
+        shadowColor: variable.black,
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
+        zIndex: 3,
+        borderBottomWidth: 1,
+        borderBottomColor: variable.secondary,
       },
-
-      welcome: {
-        fontSize: 17,
-        fontWeight: 'bold',
-        color: '#000000'
+      bookingCountTxt: {
+        color: variable.white,
+        fontWeight: "700",
+        fontSize: variable.lgFontSize,
+        padding: 5,
+        textAlign: "center",
       },
-
-      username: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: primary,
-        marginLeft: 5
+    
+      flexRow: {
+        flexDirection: "row",
       },
-
-      txt1: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#1f1f1f',
-        marginTop: 4
-      },
-
-      countBox1: {
-        padding: 10,
-        width: '29%',
-        height: 60,
-        borderRadius: 8,
-        backgroundColor: '#c30ec9'
-      },
-
-      countBox2: {
-        padding: 10,
-        width: '29%',
-        height: 60,
-        borderRadius: 8,
-        backgroundColor: primary
-      },
-
-      countBox3: {
-        padding: 10,
-        width: '29%',
-        height: 60,
-        borderRadius: 8,
-        backgroundColor: '#fa7a1e'
-      },
-
-      boxImg: {
-        height: 22,
-        width: 22,
-        tintColor: '#FFFFFF'
-      },
-
-      boxValue: {
-        fontSize: 18,
-        color: '#FFFFFF',
-        textAlign: 'center',
-        fontWeight: 'bold'
-      },
-
-      boxLabel: {
-        fontSize: 13,
-        color: '#FFFFFF',
-        textAlign: 'center'
-      },
-
-      txtView: {
-        marginLeft: 7
-      },
-
+    
       btn: {
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: '#222',
+        borderColor: "#222",
         padding: 10,
       },
     
       Txt: {
         marginTop: 10,
-        textAlign: 'center',
-    
-      }
+        textAlign: "center",
+      },
+   
 
 
 

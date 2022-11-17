@@ -8,5 +8,6 @@
     PUBLIC_KEY: "enable-biometric-or-face_id",
     FETCH_ITEMS: "my-items",
     LOST_ITEM: "item-return",
+    VERIFY_EMAIL: "forget-password"
    };
 

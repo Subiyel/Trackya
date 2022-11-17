@@ -7,11 +7,13 @@ import MyStatus from "./MyStatus"
 import MyButton from "./MyButton"
 import MyHeader from "./MyHeader"
 import QrScanner from "./QrScanner"
+import AppIconBtn from "./AppIconBtn"
 import CircleBack from "./CircleBack"
 import ListButton from "./ListButton"
 import MyBioLogin from "./MyBioLogin"
 import EnableFaceID from "./EnableFaceID"
 import DynamicPopup from "./DynamicPopup"
+
 
 export {
     MyBack,
@@ -23,6 +25,7 @@ export {
     MyButton,
     MyHeader,
     QrScanner,
+    AppIconBtn,
     CircleBack,
     ListButton,
     MyBioLogin,
