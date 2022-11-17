@@ -9,14 +9,15 @@ import * as types from "../store/actions/types";
 import Api from "../api/Api";
 
 
-function Lost({ route, appReducer, dispatch, navigation }) {
+
+function QrActivate({ route, appReducer, dispatch, navigation }) {
   
 
 
   const [isLoading, setLoading] = useState(false);
  
   const onQRdetect = (code) => {
-      navigation.navigate('LostForm', {code})
+      
   };
 
   
@@ -104,5 +105,5 @@ function Lost({ route, appReducer, dispatch, navigation }) {
     })
     
     
-    const LostContainer = connect(state => ({ appReducer: state }))(Lost);
-    export default LostContainer
+    const QrActivateContainer = connect(state => ({ appReducer: state }))(QrActivate);
+    export default QrActivateContainer

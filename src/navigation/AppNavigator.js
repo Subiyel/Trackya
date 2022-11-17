@@ -10,6 +10,13 @@ import ProfileContainer from '../screen/Profile';
 import LandingContainer from '../screen/Landing';
 import ActivateContainer from '../screen/Activate';
 import ItemDetailContainer from '../screen/ItemDetail';
+import VerifyEmailContainer from '../screen/VerifyEmail';
+import VerifyOTPContainer from '../screen/VerifyOTP';
+import ResetPasswordContainer from '../screen/ResetPassword';
+import QrActivateContainer from '../screen/QrActivate';
+import LostFormContainer from '../screen/LostForm';
+
+
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -70,7 +77,7 @@ function BottomTabs() {
 		  })}
 		>
 			<Tab.Screen name="Home" component={HomeScreenStack} />
-			<Tab.Screen name="QR" component={PayScreen} />
+			<Tab.Screen name="QR" component={QrActivateContainer} />
 			<Tab.Screen name="Profile" component={ProfileContainer} />
   		</Tab.Navigator>
 	);
@@ -108,8 +115,12 @@ AppNavigator = (props) => {
                     <Stack.Screen name="Login"  component={LoginContainer} />
                     <Stack.Screen name="Signup"  component={SignupContainer} />
                     <Stack.Screen name="Landing"  component={LandingContainer} />
+                    <Stack.Screen name="VerifyEmail"  component={VerifyEmailContainer} />
+                    <Stack.Screen name="VerifyOTP"  component={VerifyOTPContainer} />
+                    <Stack.Screen name="ResetPassword"  component={ResetPasswordContainer} />
+                    <Stack.Screen name="LostForm"  component={LostFormContainer} />
                     <Stack.Screen name="BottomTabs" component={BottomTabs} />
-
+                    
                 {/* } */}
     
     

@@ -137,6 +137,10 @@ function Login({ route, appReducer, dispatch, navigation }) {
                 </View>
             </View>
 
+            <TouchableOpacity onPress={()=> navigation.navigate('VerifyEmail')} style={{ justifyContent: 'flex-end' }}>
+            <MyText style={styles.forgotTxt}>Forgot Password?</MyText>
+            </TouchableOpacity>
+
             <MyButton isLoading={isLoading} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Login'} />
 
             <MyText style={styles.txt3}>OR SIGN IN WITH</MyText>
@@ -268,7 +272,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
           width: '100%',
       },
       buttonSubmit:{
-        marginTop: 40,
+        marginTop: 30,
         borderRadius: 2,
         borderColor: '#00000010',
         alignSelf: 'center',
@@ -300,12 +304,11 @@ function Login({ route, appReducer, dispatch, navigation }) {
       },
 
       
-      forgotLabel: {
-        color: '#000000',
-        fontSize: 16,
+      forgotTxt: {
+        fontSize: 11,
+        textAlign: 'right',
         marginTop: 10,
-        marginLeft: 5,
-        fontWeight: 'bold'
+        color: '#616160'
       },
 
       txt3: {

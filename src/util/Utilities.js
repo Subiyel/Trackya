@@ -23,6 +23,12 @@ const isNullorEmpty = (value) => {
     }
  }
 
+ export const validateEmail = (text) => {
+  let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+  console.log(text, " - ", reg.test(text))
+  return reg.test(text)
+}
+
 
  const checkDeviceBiometrics = () => {
     const myPromise = new Promise((resolve, reject) => {
@@ -102,5 +108,6 @@ export const u = {
     isNullorEmpty,
     checkDeviceBiometrics,
     getDevicePublicKey,
-    triggerBiometric
+    triggerBiometric,
+    validateEmail
 }

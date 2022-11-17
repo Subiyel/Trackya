@@ -32,7 +32,7 @@ function Landing({ route, appReducer, dispatch, navigation }) {
            </View>
 
 
-            <TouchableOpacity onPress={()=> navigation.navigate('Lost') } style={styles.bigButton2}>
+            <TouchableOpacity onPress={()=> navigation.navigate('LostForm', {code: "TST3518512065"}) } style={styles.bigButton2}>
                     <MIcon name="add-location-alt" size={40} color="#FFF" />
                     <MyText style={styles.btnTxt}>Return / Found</MyText>
             </TouchableOpacity>
