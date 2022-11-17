@@ -8,6 +8,7 @@ import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
 import Api from "../api/Api";
+import DatePicker from 'react-native-date-picker'
 
 function MarkLost({ route, appReducer, dispatch, navigation }) {
   
@@ -15,23 +16,37 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
 
   const [item, setItem] = useState(route.params.item);
   const [location, setLocation] = useState('');
-  const [desc, setDesc] = useState(route.params.item);
-  const [date1, setDate1] = useState(route.params.item);
+  const [desc, setDesc] = useState("");
+  const [date1, setDate1] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const locationRef = useRef(0);
   const firstRef = useRef(0);
   const descRef = useRef(0);
 
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
 
+//   console.log(route.params)
 
-  console.log(route.params)
-
-  const markLost = () => {
+  const markLost = async () => {
     let data = {
         uid: item.qr_code,
-        lost_date: "2022-11-02",
-        location: "Landon Airport",
-        description: "This Is My Item Lost"
+        lost_date: date1,
+        location: location,
+        description: desc
   }
+
+        console.log(data)
+        setLoading(true)
+        const res = await Api(ApiConstants.BASE_URL + ApiConstants.REPORT_LOST, data, "POST", appReducer.appReducer.authToken)
+        setLoading(false)
+
+        if(res && res.status == "success" ){
+            alert(res.message)
+            navigation.goBack()
+        } else {
+               alert("Server Down")
+        }
   }
 
       return (
@@ -62,10 +77,12 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
             <View style={{ marginTop: 30, marginHorizontal: 20, padding: 20, borderRadius: 4, backgroundColor: '#FFF' }}>
             
             <View style={styles.row1}>
-              <View style={styles.halfView}> 
-                <MyText style={ styles.fieldText }>First Name</MyText>   
-                <TextInput ref={ firstRef } value={ desc } placeholder={"First Name"} onChangeText={(text)=> setDesc(text) } style={ desc == '' ? styles.otp : styles.otpFilled } onBlur={()=> firstRef.current.setNativeProps({style:{borderColor: "black"}})} />
-              </View>
+              <TouchableOpacity onPress={()=> setOpen(true)} style={styles.halfView}> 
+                <MyText style={ styles.fieldText }>First Name</MyText>  
+                    <View style={styles.dateBtn}>
+                        <MyText>{date1}</MyText>
+                    </View> 
+              </TouchableOpacity>
 
               <View style={styles.halfView}> 
                 <MyText style={ styles.fieldText }>Location</MyText>   
@@ -85,6 +102,25 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
             <MyButton onPress={()=> markLost()} label="Submit" buttonStyle={{ marginTop: 80, width: '80%', alignSelf: 'center' }} />
 
 
+
+                        <DatePicker
+                            modal                                                                                                    
+                            mode = { "date" }
+                            open={open}
+                            date={date}
+                            onConfirm={(date) => {
+                                setOpen(false)
+                                setDate(date)
+                                let offset = date.getTimezoneOffset()
+                                let yourDate = new Date(date.getTime() - (offset*60*1000))
+                                setDate1( yourDate.toISOString().split('T')[0] )
+                            }}
+                            onCancel={() => {
+                            setOpen(false)
+                            console.log(date)
+                            }}
+                        />
+            
           </View>
         </ScrollView>
         </View>
@@ -191,6 +227,15 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
         width: '100%',
         marginTop: 20,
     },
+
+    dateBtn: {
+        justifyContent: 'center',
+        paddingHorizontal: 10, 
+        height: 40,
+        borderRadius: 3,
+        borderWidth: 1,
+        borderColor: '#babab8'
+    }
 
     })
     

@@ -17,7 +17,9 @@ function QrActivate({ route, appReducer, dispatch, navigation }) {
   const [isLoading, setLoading] = useState(false);
  
   const onQRdetect = (code) => {
-      
+    let arr = code.split("https://trackya.co.uk/return/")
+    console.log("split: ", arr)
+    navigation.navigate("ActivateScreen", {code: arr[1]})
   };
 
   

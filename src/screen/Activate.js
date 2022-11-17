@@ -1,4 +1,4 @@
-import React, { useState,useRef } from 'react'
+import React, { useState,useEffect, useRef } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyBack }  from '../components';
 import { u } from "../util/Utilities";
@@ -7,9 +7,13 @@ import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter
 import {CountryPicker} from "react-native-country-codes-picker";
 import * as types from "../store/actions/types";
 import { ApiConstants } from "../api/ApiConstants";
-import Api from "../api/Api";
+import ApiFormData from "../api/ApiFromData";
 import Icon from 'react-native-vector-icons/Ionicons';
 import ModalSelector from 'react-native-modal-selector'
+import { useIsFocused } from "@react-navigation/native";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+
 
 const width = Dimensions.get('window').width;
 
@@ -23,24 +27,21 @@ function Activate({ route, appReducer, dispatch, navigation }) {
   const [qrCode2, setQrCode2] = useState('');
   const [qrCode3, setQrCode3] = useState('');
 
-  const [itemDesc, setItemDesc] = useState('');
+
 
   
-  const [countryCode, setCountryCode] = useState('+92');
-  const [countryPicker, setCountryPicker] = useState(false);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [itemDesc, setItemDesc] = useState('');
+  const [imagePath, setImagePath] = useState(null);
+  const [imageType, setImageType] = useState(null);
 
   const [isLoading, setLoading] = useState(false);
-  const [passVisible, togglePass] = useState(false);
   const qrRef1 = useRef(0);
-  const phoneRef = useRef(0);
   const qrRef2 = useRef(0);
   const qrRef3 = useRef(0);
   const itemDesRef = useRef(0);
+  const isFocused = useIsFocused();
+
+
  
   const PRODUCT_TYPES = [
     { key: 1, label: "Smart Tag"}, 
@@ -48,48 +49,68 @@ function Activate({ route, appReducer, dispatch, navigation }) {
     { key: 3, label: "Passport Cover"}
     ]
 
-  const revealPassword = () => {
-    togglePass(!passVisible)
-  }
+    useEffect(() => {
+      if (isFocused) {
+          console.log(route.params)
+          if(route.params.code && route.params.code.length > 8) {
+              setQrCode1(route.params.code.substring(0,5))
+              setQrCode2(route.params.code.substring(5,10))
+              setQrCode3(route.params.code.substring(10,14))
+          } else {
+              alert("Qr Code is not valid")
+          }
+      }
+  }, [isFocused]);
 
-  const validateForm = () => {
-    if (u.isNullorEmpty(email)){
-      alert("Email is mandatory")
-    } else if (u.isNullorEmpty(password)){
-      alert("Password is mandatory")
-    } else if (u.isNullorEmpty(firstName)){
-      alert("Name is mandatory")
-    } else if (u.isNullorEmpty(lastName)){
-      alert("Name is mandatory")
-    } else if (u.isNullorEmpty(phone)){
-      alert("Name is mandatory")
-    } else {
-      signupUser()
-    }
-  }
-
-  const signupUser = async () => {
-    let data = {
-      "name": firstName + " " + lastName,
-      "email": email,
-      "phone": countryCode + "" + phone,
-      "password": password
-    }
   
-    setLoading(true)
-    const res = await Api(ApiConstants.BASE_URL + ApiConstants.SIGNIN, data, "POST")
-    setLoading(false)
-    
-    if (res && res.status == "success"){
-      let data = {...res.data}
-      console.log("Signup:\n", data)
-      dispatch({ type: types.SIGNUP, data })
-    } else if (res && res.message) {
-      alert(res.message)
-    } else {
-      alert("Network Error")
+  const openCamera = async () => {
+    const options = {
+      mediaType: "photo"
+    }
+    const result = await launchCamera(options);
+    console.log(result)
+    if (result && result.assets && result.assets.length > 0) {
+      setImagePath(result.assets[0].uri)
+      setImageType(result.assets[0].type)
     }
   }
+
+
+
+
+
+  const submitReport = async () => {
+
+    const form = new FormData();
+
+    if(!u.isNullorEmpty(imagePath)){
+      form.append('image', {
+        uri: imagePath,
+        type: imageType,
+        name: imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.length),
+      })
+    }
+
+    form.append("uid", "TST945954753570")
+    form.append("description", itemDesc)
+    form.append("type", productType)
+    
+    
+      console.log("FormData: ", form)
+      setLoading(true)
+      const res = await ApiFormData(ApiConstants.BASE_URL + ApiConstants.ACTIVATE, form, "POST")
+      setLoading(false)
+      console.log("Response:\n", res)
+      
+      if (res && res.status == "success" && res.message) {
+      alert(res.message)
+      } else if (res && res.message) {
+      alert(res.message)
+      } else {
+      alert("Network Error")
+      }
+  }
+
   
       return (
 
@@ -158,7 +179,7 @@ function Activate({ route, appReducer, dispatch, navigation }) {
 
                 <View style={styles.fullView}> 
                     <MyText style={ styles.fieldText }>Upload Image (Optional)</MyText>   
-                    <TouchableOpacity style={styles.codeButton} onPress={()=> alert('4')}>
+                    <TouchableOpacity style={styles.codeButton} onPress={()=> openCamera()}>
                       <MyText style={styles.codeTxt}>Upload</MyText>
                     </TouchableOpacity>
                 </View>
@@ -169,34 +190,23 @@ function Activate({ route, appReducer, dispatch, navigation }) {
            
 
 
-            <MyButton isLoading={isLoading} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Activate'} />
+            <MyButton isLoading={isLoading} onPress={()=> submitReport()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Activate'} />
 
 
 
            
 
-            {/* <ModalSelector
-                    data={PRODUCT_TYPES}
-                    initValue="Smart Tag"
-                    supportedOrientations={['portrait']}
-                    accessible={true}
-                    scrollViewAccessibilityLabel={'Scrollable options'}
-                    cancelButtonAccessibilityLabel={'Cancel Button'}
-                    onChange={(option)=>{ setProductType(option.label)}}>
-
-                <View style={styles.row1}>
-                <View style={styles.fullView}> 
-                    <MyText style={ styles.fieldText }>Business Category</MyText>   
-                    
-                    <View style={{ flexDirection:'row', alignItems:'center', elevation: 10, zIndex: 100 }}> 
-                    <TextInput value={ businessCategory } placeholder={"e.g. Lawyer, Auto Shop, Resturant"} editable={false} style={ businessCategory == '' ? styles.otp : styles.otpFilled }  />
-                    <View  style={{ height: 15, width: 18, position: 'absolute', right: 20,  }} >
-                    <Icon name={ "arrow-down" } size={14} color="#000"/>
-                    </View>
-                    </View> 
+            <TouchableOpacity onPress={()=> openCamera() } style={styles.coverButton}>
+             { imagePath == null ?
+                <View style={{ justifyContent: 'center',  }}>
+                    <Icon name={ "camera" } size={23} color="#00000060" style={{ alignSelf: 'center' }} />
+                    <MyText style={{ color: "#00000060", marginTop: 5 }}>Add Photo</MyText>
                 </View>
-                </View>
-            </ModalSelector> */}
+                : 
+                <Image source={{ uri: imagePath }}  style={{ width: '100%', height: 150 }} />
+                }
+            </TouchableOpacity>  
+           
 
           </View>
         </View>
@@ -403,7 +413,17 @@ function Activate({ route, appReducer, dispatch, navigation }) {
         textAlign: 'center',
         marginTop: 20,
         color: '#616160'
-      }
+      },
+
+      coverButton: {
+        backgroundColor: '#e8e8e8',
+        height: 150,
+        width: '100%',
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 2
+    },
 
     })
     
