@@ -33,6 +33,7 @@ import store from './src/store/configureStore';
 import { persistStore, persistReducer } from 'redux-persist'
 import themes from "./src/util/Colors";
 import AppStateProvider from "./AppState"
+import Toast from 'react-native-toast-message';
 let persistor = persistStore(store)
 const ThemeContext = React.createContext(themes.light);
 // const {store, persistor} = configureStore();
@@ -61,6 +62,7 @@ const App: () => Node = () => {
         <PersistGate loading={null} persistor={persistor}>
           <AppStateProvider>
               <AppNavigator />
+              <Toast />
           </AppStateProvider>
         </PersistGate>
        </Provider> 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyText, MyImage, MyButton, MyHeader, MyItem }  from '../components';
+import  { MyText, MyImage, ShimmerList, MyHeader, MyItem }  from '../components';
 import { Provider, connect } from 'react-redux';
 import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -42,7 +42,7 @@ function LostItems({ route, appReducer, dispatch, navigation }) {
       return (
 
         <View style={styles.container}>
-        <MyHeader {...navigation} title="My Items" />
+        <MyHeader {...navigation} title="Lost Items" />
         <ScrollView>
           <View style={styles.containerWrapper}>
            
@@ -60,8 +60,18 @@ function LostItems({ route, appReducer, dispatch, navigation }) {
               )
             })
            }
-                
-                
+
+           {
+                !isLoading && itemList.length < 1 &&
+                <Image source={ require('../assets/img/NRF.png') } style={{ height: 100, width: 100, alignSelf: 'center', marginTop: 200 }} />
+           }
+
+          { isLoading &&
+                <View>
+                  <ShimmerList />
+                  <ShimmerList /> 
+                </View> 
+          }   
                 
 
           </View>

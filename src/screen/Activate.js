@@ -151,7 +151,7 @@ function Activate({ route, appReducer, dispatch, navigation }) {
               <View style={styles.row1}>
               <View style={styles.view30}> 
                 <MyText style={ styles.fieldText }>QR Code</MyText>   
-                <TextInput maxLength={5} ref={ qrRef1 } value={ qrCode1 } placeholder={"QR Code"} onChangeText={(text)=> setQrCode1(text) } style={ qrCode1 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef1.current.setNativeProps({style:{borderColor: "black"}})} />
+                <TextInput maxLength={5} ref={ qrRef1 } value={ qrCode1 } placeholder={"xxx"} onChangeText={(text)=> setQrCode1(text) } style={ qrCode1 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef1.current.setNativeProps({style:{borderColor: "black"}})} />
               </View>
 
               <View style={styles.view30}> 

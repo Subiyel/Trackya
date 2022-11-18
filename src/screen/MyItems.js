@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyText, MyImage, MyButton, MyHeader, MyItem }  from '../components';
+import  { MyText, MyButton, MyHeader, MyItem }  from '../components';
 import { Provider, connect } from 'react-redux';
 import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -53,8 +53,13 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
             })
            }
                 
+                {
+                  itemList.length < 1 &&
+                  <Image source={ require('../assets/img/NRF.png') } style={{ height: 100, width: 100, alignSelf: 'center', marginTop: 200 }} />
+                }
                 
                 
+
 
           </View>
         </ScrollView>
@@ -80,7 +85,6 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
       containerWrapper: {
         marginHorizontal: 25
       },
-
       row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',

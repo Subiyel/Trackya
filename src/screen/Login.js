@@ -8,6 +8,7 @@ import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
 import Api from "../api/Api";
+import Toast from 'react-native-toast-message';
 
 function Login({ route, appReducer, dispatch, navigation }) {
   
@@ -23,6 +24,15 @@ function Login({ route, appReducer, dispatch, navigation }) {
   const emailRef = useRef(0);
   const passRef = useRef(0);  
 
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: 'Login Successfully 👋'
+    });
+  }
+  
   const revealPassword = () => {
     togglePass(!passVisible)
   }
@@ -51,6 +61,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
       if (res && res.status == "success"){
         let data = {...res.data}
         console.log("Login:\n", data)
+        showToast()
         dispatch({ type: types.LOGIN, data })
         navigation.navigate("BottomTabs")
       } else if (res && res.message) {

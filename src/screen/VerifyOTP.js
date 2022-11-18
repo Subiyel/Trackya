@@ -184,7 +184,7 @@ function VerifyOTP({ route, appReducer, dispatch, navigation }) {
       
 
       content1: {
-            marginHorizontal: 35,
+            marginHorizontal: Platform.OS == "android" ? 15 : 35,
           },
     
           content2: {

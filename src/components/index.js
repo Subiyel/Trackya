@@ -11,6 +11,7 @@ import AppIconBtn from "./AppIconBtn"
 import CircleBack from "./CircleBack"
 import ListButton from "./ListButton"
 import MyBioLogin from "./MyBioLogin"
+import ShimmerList from "./ShimmerList"
 import EnableFaceID from "./EnableFaceID"
 import DynamicPopup from "./DynamicPopup"
 
@@ -29,6 +30,7 @@ export {
     CircleBack,
     ListButton,
     MyBioLogin,
+    ShimmerList,
     EnableFaceID,
     DynamicPopup
 }

@@ -1,5 +1,5 @@
 import React, { useState,useRef } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
+import { StyleSheet,  View, ScrollView, Text, KeyboardAvoidingView, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyBack }  from '../components';
 import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
@@ -70,6 +70,7 @@ function Signup({ route, appReducer, dispatch, navigation }) {
       let data = {...res.data}
       console.log("Signup:\n", data)
       dispatch({ type: types.SIGNUP, data })
+      navigation.navigate("BottomTabs")
     } else if (res && res.message) {
       alert(res.message)
     } else {
@@ -79,8 +80,9 @@ function Signup({ route, appReducer, dispatch, navigation }) {
   
       return (
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView keyboardVerticalOffset={Platform.select({ ios: 30, android: 50 })} behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
           <MyBack  {...navigation} />
+          <ScrollView>
           <View style={styles.containerWrapper}>
           
           
@@ -137,7 +139,7 @@ function Signup({ route, appReducer, dispatch, navigation }) {
 
                 <View style={styles.view80}> 
                     <MyText style={ styles.fieldText }>Phone</MyText>   
-                    <TextInput ref={ phoneRef } value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
+                    <TextInput ref={ phoneRef }  keyboardType = 'numeric'  value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
                 </View>
             </View>
 
@@ -156,13 +158,14 @@ function Signup({ route, appReducer, dispatch, navigation }) {
 
 
 
-            <View style={{ flexDirection:'row', alignItems:'center', alignSelf:'center' }}>
+            <View style={{ flexDirection:'row', alignItems:'center', alignSelf:'center', marginBottom: 40 }}>
             <MyText style={styles.alreadyTxt}>Already Have an Account?</MyText>
             <TouchableOpacity onPress={()=> navigation.navigate('Login')}><MyText style={styles.loginTxt}>Login instead</MyText></TouchableOpacity>
             </View>
 
           </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       )
     }
     

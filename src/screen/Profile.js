@@ -1,5 +1,5 @@
 import React, { useState,useRef } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
+import { StyleSheet,  View, ScrollView, KeyboardAvoidingView, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, Logout }  from '../components';
 import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
@@ -105,6 +105,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
         alert("Error: Couldnot enable Biometric Login")
       })
     } else {
+      setLoading(false)
       alert("Device not supported for Biometric")
       toggleBiometricSwitch(false)
     }
@@ -126,8 +127,8 @@ function Profile({ route, appReducer, dispatch, navigation }) {
   
       return (
 
-        <View style={styles.container}>
-          {/* <MyBack  {...navigation} /> */}
+        <KeyboardAvoidingView keyboardVerticalOffset={Platform.select({ ios: 30, android: 90 })} behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
+          <ScrollView>
           <View style={styles.containerWrapper}>
           
           
@@ -184,7 +185,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
 
                 <View style={styles.view80}> 
                     <MyText style={ styles.fieldText }>Phone</MyText>   
-                    <TextInput ref={ phoneRef } value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
+                    <TextInput ref={ phoneRef }  keyboardType = 'numeric' value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
                 </View>
             </View>
 
@@ -215,18 +216,19 @@ function Profile({ route, appReducer, dispatch, navigation }) {
                 />
             </View>
 
-            <MyText style={{ textAlign: 'center', fontSize: 10, color: '#00000060', marginTop: 75, marginBottom: 10 }}>
+            <MyText style={{ textAlign: 'center', fontSize: 10, color: '#00000060', marginTop: 65, marginBottom: 10 }}>
             © 2022 . Trackya v1.0
             </MyText>
 
 
             <Logout onPress={()=> navigation.navigate("Login")} />
 
-            
+            <View style={{ height: 40 }} />
 
 
           </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       )
     }
     
