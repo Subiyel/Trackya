@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useRef } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
+import { StyleSheet,  View, ScrollView, Text, KeyboardAvoidingView, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyBack }  from '../components';
 import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
@@ -23,7 +23,7 @@ function Activate({ route, appReducer, dispatch, navigation }) {
 
   const [productType, setProductType] = useState('Smart Tag');
 
-  const [qrCode1, setQrCode1] = useState('TSTS');
+  const [qrCode1, setQrCode1] = useState('');
   const [qrCode2, setQrCode2] = useState('');
   const [qrCode3, setQrCode3] = useState('');
 
@@ -52,13 +52,15 @@ function Activate({ route, appReducer, dispatch, navigation }) {
     useEffect(() => {
       if (isFocused) {
           console.log(route.params)
-          if(route.params.code && route.params.code.length > 8) {
-              setQrCode1(route.params.code.substring(0,5))
-              setQrCode2(route.params.code.substring(5,10))
-              setQrCode3(route.params.code.substring(10,14))
-          } else {
-              alert("Qr Code is not valid")
-          }
+          if(route.params){
+            if(route.params.code && route.params.code.length > 8) {
+                setQrCode1(route.params.code.substring(0,5))
+                setQrCode2(route.params.code.substring(5,10))
+                setQrCode3(route.params.code.substring(10,14))
+            } else {
+                alert("Qr Code is not valid")
+            }
+        }
       }
   }, [isFocused]);
 
@@ -114,8 +116,9 @@ function Activate({ route, appReducer, dispatch, navigation }) {
   
       return (
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
           <MyBack  {...navigation} />
+          <ScrollView>
           <View style={styles.containerWrapper}>
           
           
@@ -148,17 +151,17 @@ function Activate({ route, appReducer, dispatch, navigation }) {
               <View style={styles.row1}>
               <View style={styles.view30}> 
                 <MyText style={ styles.fieldText }>QR Code</MyText>   
-                <TextInput ref={ qrRef1 } value={ qrCode1 } placeholder={"QR Code"} onChangeText={(text)=> setQrCode1(text) } style={ qrCode1 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef1.current.setNativeProps({style:{borderColor: "black"}})} />
+                <TextInput maxLength={5} ref={ qrRef1 } value={ qrCode1 } placeholder={"QR Code"} onChangeText={(text)=> setQrCode1(text) } style={ qrCode1 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef1.current.setNativeProps({style:{borderColor: "black"}})} />
               </View>
 
               <View style={styles.view30}> 
                 <MyText style={ styles.fieldText }></MyText>   
-                <TextInput ref={ qrRef2 } value={ qrCode2 } placeholder={"xxxxx"} onChangeText={(text)=> setQrCode2(text) } style={ qrCode2 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef2.current.setNativeProps({style:{borderColor: "black"}})} />
+                <TextInput maxLength={5} ref={ qrRef2 } value={ qrCode2 } placeholder={"xxxxx"} onChangeText={(text)=> setQrCode2(text) } style={ qrCode2 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef2.current.setNativeProps({style:{borderColor: "black"}})} />
               </View>
 
               <View style={styles.view30}> 
                 <MyText style={ styles.fieldText }></MyText>   
-                <TextInput ref={ qrRef3 } value={ qrCode3 } placeholder={"xxxxx"} onChangeText={(text)=> setQrCode3(text) } style={ qrCode3 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef3.current.setNativeProps({style:{borderColor: "black"}})} />
+                <TextInput maxLength={5} ref={ qrRef3 } value={ qrCode3 } placeholder={"xxxxx"} onChangeText={(text)=> setQrCode3(text) } style={ qrCode3 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef3.current.setNativeProps({style:{borderColor: "black"}})} />
               </View>
             </View>
 
@@ -209,7 +212,8 @@ function Activate({ route, appReducer, dispatch, navigation }) {
            
 
           </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       )
     }
     

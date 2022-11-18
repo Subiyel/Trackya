@@ -1,9 +1,8 @@
 import React, { useState,useRef,useEffect } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
+import { StyleSheet,  View, ScrollView, Text, KeyboardAvoidingView, TouchableOpacity, Image, TextInput, Dimensions, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyBack }  from '../components';
 import { u } from "../util/Utilities";
 import { Provider, connect } from 'react-redux';
-import { BoxPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 import {CountryPicker} from "react-native-country-codes-picker";
 import * as types from "../store/actions/types";
 import { ApiConstants } from "../api/ApiConstants";
@@ -22,7 +21,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
 
   const [productType, setProductType] = useState('Smart Tag');
 
-  const [qrCode1, setQrCode1] = useState('TSTS');
+  const [qrCode1, setQrCode1] = useState('');
   const [qrCode2, setQrCode2] = useState('');
   const [qrCode3, setQrCode3] = useState('');
 
@@ -31,7 +30,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
   const [imageType, setImageType] = useState(null);
 
   
-  const [countryCode, setCountryCode] = useState('+92');
+  const [countryCode, setCountryCode] = useState('+44');
   const [countryPicker, setCountryPicker] = useState(false);
 
   const [email, setEmail] = useState('');
@@ -128,7 +127,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
   
       return (
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
           <MyBack  {...navigation} />
           <ScrollView>
           <View style={styles.containerWrapper}>
@@ -206,19 +205,20 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
 
                 <View style={styles.view80}> 
                     <MyText style={ styles.fieldText }>Phone</MyText>   
-                    <TextInput ref={ phoneRef } value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
+                    <TextInput keyboardType = 'numeric' ref={ phoneRef } value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
                 </View>
 
             </View>
 
 
             <CountryPicker
-            show={countryPicker}
-            // when picker button press you will get the country object with dial code
-            pickerButtonOnPress={(item) => { console.log("item====> ", item)
-            setCountryCode(item.dial_code);
-            setCountryPicker(false);
-            }}
+              initialState={'United'}
+              show={countryPicker}
+              enableModalAvoiding={true}
+              pickerButtonOnPress={(item) => { console.log("item====> ", item)
+              setCountryCode(item.dial_code);
+              setCountryPicker(false);
+              }}
             />
 
 
@@ -255,7 +255,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
 
           </View>
           </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
       )
     }
     
@@ -275,7 +275,9 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
         backgroundColor: "#FFFFFF",
       },
       containerWrapper: {
-        marginHorizontal: 25
+        marginHorizontal: 25,
+        paddingBottom: 100,
+
       },
 
       row: {

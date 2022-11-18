@@ -1,5 +1,5 @@
 import React, { useState,useRef } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
+import { StyleSheet,  View, ScrollView, Text, KeyboardAvoidingView, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, CircleBack, MyStatus }  from '../components';
 import { Provider, connect } from 'react-redux';
 import QRCode from 'react-native-qrcode-svg';
@@ -51,7 +51,7 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
 
       return (
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} >
         <CircleBack {...navigation} />
         <ScrollView>
           
@@ -78,7 +78,7 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
             
             <View style={styles.row1}>
               <TouchableOpacity onPress={()=> setOpen(true)} style={styles.halfView}> 
-                <MyText style={ styles.fieldText }>First Name</MyText>  
+                <MyText style={ styles.fieldText }>Lost Date</MyText>  
                     <View style={styles.dateBtn}>
                         <MyText>{date1}</MyText>
                     </View> 
@@ -123,7 +123,7 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
             
           </View>
         </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
       )
     }
     
@@ -140,7 +140,7 @@ function MarkLost({ route, appReducer, dispatch, navigation }) {
       },
       container: {
         flex: 1,
-        backgroundColor: "#E1E1E1",
+        // backgroundColor: "#E1E1E1",
       },
       containerWrapper: {
         marginHorizontal: 20,
