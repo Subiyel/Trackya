@@ -21,11 +21,16 @@ export default function QrScanner(props) {
         setIsInfoVisible(false)
     }
 
+    // const reAvtivateScanner = () => {
+    //     qrRef.reactivate()
+    // }
+
     return (
         <View style={styles.container}>
 
 
             <QRCodeScanner
+                ref={(node) => { props.qrRef(node) }}
                 onRead={(e)=> onSuccess(e)}
                 showMarker={true}
                 cameraStyle={{ flex: 1, height: '100%' }}

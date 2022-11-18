@@ -59,7 +59,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
             if(route.params.code && route.params.code.length > 8) {
                 setQrCode1(route.params.code.substring(0,5))
                 setQrCode2(route.params.code.substring(5,10))
-                setQrCode3(route.params.code.substring(10,14))
+                setQrCode3(route.params.code.substring(10,15))
             } else {
                 alert("Qr Code is not valid")
             }

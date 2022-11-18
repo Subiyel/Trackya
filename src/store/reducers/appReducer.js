@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   publicToken: "",
   isFaceIDenabled: false,
   isFirstTime: true,
+  phone: ""
 };
 
 const appReducer = (state = INITIAL_STATE, action) => {
@@ -24,6 +25,7 @@ const appReducer = (state = INITIAL_STATE, action) => {
         id: action.data.id,
         name: action.data.name,
         email: action.data.email,
+        phone: action.data.phone,
         authToken: action.data.token,
         };
     }

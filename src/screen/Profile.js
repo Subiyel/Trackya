@@ -10,6 +10,8 @@ import { ApiConstants } from "../api/ApiConstants";
 import Api from "../api/Api";
 import Icon from 'react-native-vector-icons/Ionicons';
 import ToggleSwitch from 'toggle-switch-react-native'
+import Toast from 'react-native-toast-message';
+
 
 const width = Dimensions.get('window').width;
 
@@ -25,7 +27,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
   const [email, setEmail] = useState(appReducer.appReducer.email);
   const [firstName, setFirstName] = useState(appReducer.appReducer.name);
   const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState(appReducer.appReducer.phone);
 
   const [isLoading, setLoading] = useState(false);
   const [passVisible, togglePass] = useState(false);
@@ -43,37 +45,32 @@ function Profile({ route, appReducer, dispatch, navigation }) {
     togglePass(!passVisible)
   }
 
-  const validateForm = () => {
-    if (u.isNullorEmpty(email)){
-      alert("Email is mandatory")
-    } else if (u.isNullorEmpty(password)){
-      alert("Password is mandatory")
-    } else if (u.isNullorEmpty(firstName)){
-      alert("Name is mandatory")
-    } else if (u.isNullorEmpty(lastName)){
-      alert("Name is mandatory")
-    } else if (u.isNullorEmpty(phone)){
-      alert("Name is mandatory")
-    } else {
-      signupUser()
-    }
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: 'Profile Updated Successfully 👋'
+    });
   }
 
-  const signupUser = async () => {
+
+  const updateProfile = async () => {
     let data = {
+      "id": appReducer.appReducer.id,
       "name": firstName + " " + lastName,
-      "email": email,
       "phone": countryCode + "" + phone,
-      "password": password
+      // "password": password
     }
   
     setLoading(true)
-    const res = await Api(ApiConstants.BASE_URL + ApiConstants.SIGNIN, data, "POST")
+    const res = await Api(ApiConstants.BASE_URL + ApiConstants.UPDATE_PROFILE, data, "POST", appReducer.appReducer.authToken)
     setLoading(false)
     
     if (res && res.status == "success"){
       let data = {...res.data}
-      console.log("Signup:\n", data)
+      showToast()
+      console.log("Profile Update:\n", data)
       dispatch({ type: types.SIGNUP, data })
     } else if (res && res.message) {
       alert(res.message)
@@ -145,7 +142,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
 
               <View style={styles.halfView}> 
                 <MyText style={ styles.fieldText }>Email</MyText>   
-                <TextInput ref={ emailRef } value={ email } placeholder={"Email"} onChangeText={(text)=> setEmail(text) } style={ email == '' ? styles.otp : styles.otpFilled } onBlur={()=> emailRef.current.setNativeProps({style:{borderColor: "black"}})} />
+                <TextInput editable={false} ref={ emailRef } value={ email } placeholder={"Email"} onChangeText={(text)=> setEmail(text) } style={ email == '' ? styles.otp : styles.otpFilled } onBlur={()=> emailRef.current.setNativeProps({style:{borderColor: "black"}})} />
               </View>
             </View>
 
@@ -201,7 +198,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
             />
 
 
-            <MyButton isLoading={isLoading} onPress={()=> validateForm()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Update'} />
+            <MyButton isLoading={isLoading} onPress={()=> updateProfile()} buttonStyle={styles.buttonSubmit} labelStyle={styles.submitTxt} label={'Update'} />
 
 
             <View style={styles.row1}>

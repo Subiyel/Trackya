@@ -31,6 +31,8 @@ function Activate({ route, appReducer, dispatch, navigation }) {
 
   
   const [itemDesc, setItemDesc] = useState('');
+  const [passNo, setPassNo] = useState('');
+  const [passExpiry, setPassExpiry] = useState('');
   const [imagePath, setImagePath] = useState(null);
   const [imageType, setImageType] = useState(null);
 
@@ -39,6 +41,8 @@ function Activate({ route, appReducer, dispatch, navigation }) {
   const qrRef2 = useRef(0);
   const qrRef3 = useRef(0);
   const itemDesRef = useRef(0);
+  const passNoRef = useRef(0);
+  const passExpiryRef = useRef(0);
   const isFocused = useIsFocused();
 
 
@@ -56,7 +60,7 @@ function Activate({ route, appReducer, dispatch, navigation }) {
             if(route.params.code && route.params.code.length > 8) {
                 setQrCode1(route.params.code.substring(0,5))
                 setQrCode2(route.params.code.substring(5,10))
-                setQrCode3(route.params.code.substring(10,14))
+                setQrCode3(route.params.code.substring(10,15))
             } else {
                 alert("Qr Code is not valid")
             }
@@ -93,14 +97,15 @@ function Activate({ route, appReducer, dispatch, navigation }) {
       })
     }
 
-    form.append("uid", "TST945954753570")
+    form.append("uid", qrCode1 +""+ qrCode2 + "" + qrCode3)
     form.append("description", itemDesc)
     form.append("type", productType)
-    
+    form.append("passport_number", passNo)
+    form.append("passport_expiry", passExpiry)
     
       console.log("FormData: ", form)
       setLoading(true)
-      const res = await ApiFormData(ApiConstants.BASE_URL + ApiConstants.ACTIVATE, form, "POST")
+      const res = await ApiFormData(ApiConstants.BASE_URL + ApiConstants.ACTIVATE, form, "POST", appReducer.appReducer.authToken)
       setLoading(false)
       console.log("Response:\n", res)
       
@@ -172,6 +177,28 @@ function Activate({ route, appReducer, dispatch, navigation }) {
                     {/* { emailErr && <MyText style={styles.errMsg}>An account with this email already exists</MyText> } */}
                 </View>
             </View>
+
+
+          { productType == "Passport Cover" &&
+          <>
+            <View style={styles.row1}>
+                <View style={styles.fullView}> 
+                    <MyText style={ styles.fieldText }>Passport Number</MyText>   
+                    <TextInput ref={ passNoRef } value={ passNo } placeholder={"Passport Number here"} onChangeText={(text)=> setPassNo(text) } style={ passNo == '' ? styles.otp : styles.otpFilled } onBlur={()=> { passNoRef.current.setNativeProps({style:{borderColor: "black"}})}} />
+                    {/* { emailErr && <MyText style={styles.errMsg}>An account with this email already exists</MyText> } */}
+                </View>
+            </View>
+
+
+            <View style={styles.row1}>
+                <View style={styles.fullView}> 
+                    <MyText style={ styles.fieldText }>Passport Expiry</MyText>   
+                    <TextInput ref={ passExpiryRef } value={ passExpiry } placeholder={"Passport Expiry here"} onChangeText={(text)=> setItemDesc(text) } style={ passExpiry == '' ? styles.otp : styles.otpFilled } onBlur={()=> { passExpiryRef.current.setNativeProps({style:{borderColor: "black"}})}} />
+                    {/* { emailErr && <MyText style={styles.errMsg}>An account with this email already exists</MyText> } */}
+                </View>
+            </View>
+            </>
+          }
 
 
       

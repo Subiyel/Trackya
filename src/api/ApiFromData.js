@@ -11,7 +11,8 @@ const ApiFormData = async (url, param, type, token) => {
         url: url,
         headers: {
           Accept: 'application/json',
-        //   'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          "Authorization": `Bearer ${token}`
         }
       }
       if (type != "GET"){

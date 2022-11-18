@@ -61,7 +61,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
       if (res && res.status == "success"){
         let data = {...res.data}
         console.log("Login:\n", data)
-        showToast()
+        // showToast()
         dispatch({ type: types.LOGIN, data })
         navigation.navigate("BottomTabs")
       } else if (res && res.message) {

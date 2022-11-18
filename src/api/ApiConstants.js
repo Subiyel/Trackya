@@ -13,6 +13,7 @@
     RESET_PASS: "reset-password",
     FETCH_LOST_ITEMS: "lost-item-lists",
     REPORT_LOST: "lost-item-report",
-    ACTIVATE: "activate"
+    ACTIVATE: "activate",
+    UPDATE_PROFILE: "update-profile"
    };
 

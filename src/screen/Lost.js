@@ -1,4 +1,4 @@
-import React, { useState,useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, Linking, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyBack, QrScanner }  from '../components';
 import { Provider, connect } from 'react-redux';
@@ -8,18 +8,23 @@ import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
 import Api from "../api/Api";
 import Toast from 'react-native-toast-message';
+import { useIsFocused } from "@react-navigation/native";
+
 
 function Lost({ route, appReducer, dispatch, navigation }) {
   
-    const showToast = (code) => {
-      Toast.show({
-        type: 'success',
-        text1: 'QR Detected',
-        text2: code
-      });
-    }
+    
 
   const [isLoading, setLoading] = useState(false);
+  const isFocused = useIsFocused();
+  var qrRefParent = useRef(0);
+
+  useEffect(() => {
+    if (isFocused) {
+      console.log("Activating Scanner..")
+      qrRefParent.reactivate()
+    }
+  }, [isFocused]);
  
   const onQRdetect = (code) => {
       let arr = code.split("https://trackya.co.uk/return/")
@@ -33,6 +38,14 @@ function Lost({ route, appReducer, dispatch, navigation }) {
       }
   };
 
+  const showToast = (code) => {
+    Toast.show({
+      type: 'success',
+      text1: 'QR Detected',
+      text2: code
+    });
+  }
+
   
       return (
 
@@ -41,6 +54,7 @@ function Lost({ route, appReducer, dispatch, navigation }) {
 
 
             <QrScanner 
+                qrRef = {(ref) => qrRefParent = ref }
                 onQrFound={(code) => onQRdetect(code)}
                 onBack={() => navigation.goBack() } 
             />
