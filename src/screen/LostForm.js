@@ -212,8 +212,8 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
 
 
             <CountryPicker
-              initialState={'United'}
               show={countryPicker}
+              initialState={'United'}
               enableModalAvoiding={true}
               pickerButtonOnPress={(item) => { console.log("item====> ", item)
               setCountryCode(item.dial_code);

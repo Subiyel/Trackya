@@ -145,8 +145,9 @@ function Signup({ route, appReducer, dispatch, navigation }) {
 
 
             <CountryPicker
+              initialState={'United'}
+              enableModalAvoiding={true}
               show={countryPicker}
-              // when picker button press you will get the country object with dial code
               pickerButtonOnPress={(item) => { console.log("item====> ", item)
                 setCountryCode(item.dial_code);
                 setCountryPicker(false);

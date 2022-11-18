@@ -7,19 +7,32 @@ import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
 import Api from "../api/Api";
+import Toast from 'react-native-toast-message';
 
 
 
 function QrActivate({ route, appReducer, dispatch, navigation }) {
   
-
+  const showToast = (code) => {
+    Toast.show({
+      type: 'success',
+      text1: 'QR Detected',
+      text2: code
+    });
+  }
 
   const [isLoading, setLoading] = useState(false);
  
   const onQRdetect = (code) => {
     let arr = code.split("https://trackya.co.uk/return/")
     console.log("split: ", arr)
-    navigation.navigate("ActivateScreen", {code: arr[1]})
+    if (arr.length > 0) {
+      showToast(arr[1])
+      navigation.navigate("ActivateScreen", {code: arr[1]})
+    } else {
+      alert("QR code not valid")
+      // navigation.goBack()
+    }
   };
 
   
