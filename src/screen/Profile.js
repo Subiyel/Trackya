@@ -59,8 +59,8 @@ function Profile({ route, appReducer, dispatch, navigation }) {
     let data = {
       "id": appReducer.appReducer.id,
       "name": firstName + " " + lastName,
-      "phone": countryCode + "" + phone,
-      // "password": password
+      "phone": phone,
+      "password": password
     }
   
     setLoading(true)
@@ -146,13 +146,13 @@ function Profile({ route, appReducer, dispatch, navigation }) {
               </View>
             </View>
 
-              <View style={styles.row1}>
+              {/* <View style={styles.row1}>
                 <View style={styles.fullView}> 
                     <MyText style={ styles.fieldText }>Current Password</MyText>   
                     <TextInput ref={ oldPassRef } value={ oldPassword } placeholder={"Current Password"} onChangeText={(text)=> setOldPassword(text) } style={ oldPassword == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  oldPassRef.current.setNativeProps({style:{borderColor: "black"}})}} />
-                    {/* { emailErr && <MyText style={styles.errMsg}>An account with this email already exists</MyText> } */}
+                    
                 </View>
-            </View>
+            </View> */}
 
 
               <View style={styles.row1}>
@@ -173,14 +173,14 @@ function Profile({ route, appReducer, dispatch, navigation }) {
 
             <View style={styles.row1}>
 
-                <View style={styles.view20}> 
+                {/* <View style={styles.view20}> 
                     <MyText style={ styles.fieldText }>Country</MyText>   
                     <TouchableOpacity style={styles.codeButton} onPress={()=> setCountryPicker(true)}>
                       <MyText style={styles.codeTxt}>{countryCode}</MyText>
                     </TouchableOpacity>
-                </View>
+                </View> */}
 
-                <View style={styles.view80}> 
+                <View style={styles.fullView}> 
                     <MyText style={ styles.fieldText }>Phone</MyText>   
                     <TextInput ref={ phoneRef }  keyboardType = 'numeric' value={ phone } placeholder={"Phone No"} onChangeText={(text)=> setPhone(text) } style={ phone == '' ? styles.otp : styles.otpFilled } onBlur={()=> {  phoneRef.current.setNativeProps({style:{borderColor: "black"}})}} />
                 </View>
@@ -214,7 +214,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
                 />
             </View>
 
-            <MyText style={{ textAlign: 'center', fontSize: 10, color: '#00000060', marginTop: 65, marginBottom: 10 }}>
+            <MyText style={{ textAlign: 'center', fontSize: 10, color: '#00000060', marginTop: 95, marginBottom: 10 }}>
             © 2022 . Trackya v1.0
             </MyText>
 

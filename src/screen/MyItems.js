@@ -47,6 +47,7 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
                     uri={item.image} 
                     title={item.title}
                     desc={item.description}
+                    qrcode={item.qr_code}
                     status={item.status}
                   />
               )

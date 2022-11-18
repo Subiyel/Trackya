@@ -13,8 +13,9 @@ export default function MyItem(props) {
         <View style={styles.row}>
             <MyImage source={{ uri: props.uri }} style={styles.img} />
             <View style={styles.section}>
-                <MyText numberOfLines={1} style={styles.title}>{props.title}</MyText>
-                <MyText numberOfLines={2} style={styles.desc}>{props.desc}</MyText>
+                <MyText numberOfLines={1} style={styles.title}><MyText style={styles.boldTxt}>Title:</MyText> {props.title}</MyText>
+                <MyText numberOfLines={2} style={styles.qrTxt}><MyText style={styles.boldTxt}>UID:</MyText> {props.qrcode}</MyText>
+                <MyText numberOfLines={2} style={styles.desc}><MyText style={styles.boldTxt}>Desc:</MyText> {props.desc}</MyText>
             </View>
         </View>
     </TouchableOpacity>
@@ -57,18 +58,26 @@ export default function MyItem(props) {
       },
 
       title: {
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 13,
+        // fontWeight: 'bold',
         color: '#000'
       },
 
       desc: {
-        fontSize: 14,
+        fontSize: 12,
         color: '#222',
-        marginTop: 3
+        marginTop: 1
       },
 
-     
+      qrTxt: {
+        fontSize: 12,
+        color: '#222',
+        marginTop: 4
+      },
+
+      boldTxt: {
+        fontWeight: 'bold'
+      }
 
 
   });

@@ -43,14 +43,14 @@ function Intro({ route, appReducer, dispatch, navigation }) {
       text: 'Real-Time tracking of your lugggages',
       image: require('../assets/img/intro/intro2.png'),
       backgroundColor: '#febe29',
-    },
-    {
-      key: 'three',
-      title: 'Lost Item?',
-      text: "Don't Worry! Let us reunite you with your Lugguage",
-      image: require('../assets/img/intro/intro4.png'),
-      backgroundColor: '#22bcb5',
     }
+    // {
+    //   key: 'three',
+    //   title: 'Lost Item?',
+    //   text: "Don't Worry! Let us reunite you with your Lugguage",
+    //   image: require('../assets/img/intro/intro4.png'),
+    //   backgroundColor: '#22bcb5',
+    // }
   ];
 
 const _renderItem = ({ item }) => {

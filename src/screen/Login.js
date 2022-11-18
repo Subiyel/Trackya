@@ -60,7 +60,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
       
       if (res && res.status == "success"){
         let data = {...res.data}
-        console.log("Login:\n", data)
+        console.log("Login:\n\n\n", data)
         // showToast()
         dispatch({ type: types.LOGIN, data })
         navigation.navigate("BottomTabs")
@@ -130,7 +130,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
               <View style={styles.row1}>
                 <View style={styles.fullView}> 
                     <MyText style={ styles.fieldText }>Your Email</MyText>   
-                    <TextInput ref={ emailRef } value={ email } placeholder={"Email"} onChangeText={(text)=> setEmail(text) } style={ email == '' ? styles.otp : styles.otpFilled } onBlur={()=> { toggleEmailErr(false); emailRef.current.setNativeProps({style:{borderColor: "black"}})}} />
+                    <TextInput ref={ emailRef } value={ email } placeholder={"Email"} onChangeText={(text)=> setEmail(text) } autoCapitalize='none' style={ email == '' ? styles.otp : styles.otpFilled } onBlur={()=> { toggleEmailErr(false); emailRef.current.setNativeProps({style:{borderColor: "black"}})}} />
                     {/* { emailErr && <MyText style={styles.errMsg}>An account with this email already exists</MyText> } */}
                 </View>
             </View>
@@ -140,7 +140,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
                 <View style={styles.fullView}> 
                     <MyText style={ styles.fieldText }>Your Password</MyText>   
                     <View style={{ flexDirection:'row', alignItems:'center' }}> 
-                      <TextInput ref={ passRef } value={ password } secureTextEntry={!passVisible} placeholder={"Password"} onChangeText={(text)=> setPassword(text) } style={ password == '' ? styles.otp : styles.otpFilled } onBlur={()=> passRef.current.setNativeProps({style:{borderColor: "black"}})} />
+                      <TextInput ref={ passRef } value={ password } secureTextEntry={!passVisible} placeholder={"Password"} autoCapitalize='none' onChangeText={(text)=> setPassword(text) } style={ password == '' ? styles.otp : styles.otpFilled } onBlur={()=> passRef.current.setNativeProps({style:{borderColor: "black"}})} />
                           <TouchableHighlight onPress={()=> revealPassword()} style={{ height: 35, width: 33, position: 'absolute', right: 10, top: 4, elevation: 10, justifyContent: 'center', alignItems: 'center' }} >
                           <Icon name={ passVisible ? "eye-off" : "eye" } size={14} color="#000"/>
                       </TouchableHighlight>

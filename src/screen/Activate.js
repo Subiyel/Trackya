@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ModalSelector from 'react-native-modal-selector'
 import { useIsFocused } from "@react-navigation/native";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import DatePicker from 'react-native-date-picker'
 
 
 
@@ -29,7 +30,7 @@ function Activate({ route, appReducer, dispatch, navigation }) {
 
 
 
-  
+  const [date1, setDate1] = useState("");
   const [itemDesc, setItemDesc] = useState('');
   const [passNo, setPassNo] = useState('');
   const [passExpiry, setPassExpiry] = useState('');
@@ -45,6 +46,8 @@ function Activate({ route, appReducer, dispatch, navigation }) {
   const passExpiryRef = useRef(0);
   const isFocused = useIsFocused();
 
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
 
  
   const PRODUCT_TYPES = [
@@ -101,7 +104,7 @@ function Activate({ route, appReducer, dispatch, navigation }) {
     form.append("description", itemDesc)
     form.append("type", productType)
     form.append("passport_number", passNo)
-    form.append("passport_expiry", passExpiry)
+    form.append("passport_expiry", date1)
     
       console.log("FormData: ", form)
       setLoading(true)
@@ -191,12 +194,13 @@ function Activate({ route, appReducer, dispatch, navigation }) {
 
 
             <View style={styles.row1}>
-                <View style={styles.fullView}> 
-                    <MyText style={ styles.fieldText }>Passport Expiry</MyText>   
-                    <TextInput ref={ passExpiryRef } value={ passExpiry } placeholder={"Passport Expiry here"} onChangeText={(text)=> setItemDesc(text) } style={ passExpiry == '' ? styles.otp : styles.otpFilled } onBlur={()=> { passExpiryRef.current.setNativeProps({style:{borderColor: "black"}})}} />
-                    {/* { emailErr && <MyText style={styles.errMsg}>An account with this email already exists</MyText> } */}
-                </View>
-            </View>
+              <TouchableOpacity onPress={()=> setOpen(true)} style={styles.fullView}> 
+                <MyText style={ styles.fieldText }>Passport Expiry</MyText>  
+                    <View style={styles.dateBtn}>
+                        <MyText>{date1}</MyText>
+                    </View> 
+              </TouchableOpacity>
+              </View>
             </>
           }
 
@@ -238,6 +242,24 @@ function Activate({ route, appReducer, dispatch, navigation }) {
             </TouchableOpacity>  
            
 
+
+                          <DatePicker
+                            modal                                                                                                    
+                            mode = { "date" }
+                            open={open}
+                            date={date}
+                            onConfirm={(date) => {
+                                setOpen(false)
+                                setDate(date)
+                                let offset = date.getTimezoneOffset()
+                                let yourDate = new Date(date.getTime() - (offset*60*1000))
+                                setDate1( yourDate.toISOString().split('T')[0] )
+                            }}
+                            onCancel={() => {
+                            setOpen(false)
+                            console.log(date)
+                            }}
+                        />
           </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -454,6 +476,21 @@ function Activate({ route, appReducer, dispatch, navigation }) {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 2
+    },
+
+    dateBtn: {
+      justifyContent: 'center',
+      paddingHorizontal: 10, 
+      height: 40,
+      borderRadius: 3,
+      borderWidth: 1,
+      borderColor: '#babab8'
+    },
+
+    fieldText: {
+      fontSize: 12,
+      color: '#000000',
+      marginBottom: 8
     },
 
     })

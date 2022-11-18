@@ -21,8 +21,8 @@ export default function MyHeader(props) {
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        paddingTop: 7,
-        paddingBottom: 15,
+        paddingTop: 10,
+        paddingBottom: 12,
       },
 
       navTitle: {

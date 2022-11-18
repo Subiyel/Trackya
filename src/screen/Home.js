@@ -128,7 +128,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
       <View style={styles.header}>
         <View style={styles.welcomeContainer}>
           <Text style={styles.h1}>Welcome,</Text>
-          <Text style={styles.h2}>{"UMAR"}</Text>
+          <Text style={styles.h2}>{appReducer.appReducer.name}</Text>
         </View>
         <View style={styles.iconWrapper}>
           <TouchableOpacity
@@ -152,7 +152,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
           type="feather"
           icon="location"
           text="Tracker"
-          // onPress={() => this.props.navigation.navigate("Shift Controls")}
+          onPress={() => navigation.navigate("Tracker")}
         />
       </View>
 

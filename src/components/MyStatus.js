@@ -8,7 +8,7 @@ export default function MyStatus(props) {
     var color = "#FFD900"
 
     if (props.state == "Active") {
-        color = "#05E822"
+        color = "#19826d"
     } else if (props.state == "Lost") {
       color = "#ff471a"
     }
@@ -32,7 +32,8 @@ export default function MyStatus(props) {
 
       txt: {
         fontSize: 11,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#FFF'
       }
   });
 
