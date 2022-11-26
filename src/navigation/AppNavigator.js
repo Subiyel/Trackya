@@ -98,7 +98,7 @@ function BottomTabs() {
     <HomeStack.Screen name="LostItems" component={LostItemsContainer} />
     <HomeStack.Screen name="MarkLost" component={MarkLostContainer} />
     <HomeStack.Screen name="Tracker" component={TrackerContainer} />
-    
+    <HomeStack.Screen name="QrActivate" component={QrActivateContainer} />
 	  </HomeStack.Navigator>
 	);
   }

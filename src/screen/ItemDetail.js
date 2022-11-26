@@ -56,6 +56,22 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
                     <MyText style={styles.label}>Type:</MyText>
                     <MyText style={styles.expiry}>{item.type}</MyText>
                 </View>
+
+                { item.type == "Passport Cover" &&
+
+                  <View>
+                    <View style={[styles.row,{ marginTop: 6 }]}>
+                      <MyText style={styles.label}>Passport Expiry:</MyText>
+                      <MyText style={styles.expiry}>{item.passport_expiry_date}</MyText>
+                    </View>
+                    
+                    <View style={[styles.row,{ marginTop: 6 }]}>
+                        <MyText style={styles.label}>Passport Number:</MyText>
+                        <MyText style={styles.expiry}>{item.passport_number}</MyText>
+                    </View>
+                  </View>
+
+                }
             </View>
 
 

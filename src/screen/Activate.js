@@ -71,6 +71,17 @@ function Activate({ route, appReducer, dispatch, navigation }) {
       }
   }, [isFocused]);
 
+  const clearFields = () => {
+    setDate1("")
+    setPassNo("")
+    setQrCode1("")
+    setQrCode2("")
+    setQrCode3("")
+    setItemDesc("")
+    setImagePath("")
+    setImageType("")
+  }
+
   
   const openCamera = async () => {
     const options = {
@@ -113,11 +124,12 @@ function Activate({ route, appReducer, dispatch, navigation }) {
       console.log("Response:\n", res)
       
       if (res && res.status == "success" && res.message) {
-      alert(res.message)
+        alert(res.message)
+        clearFields()
       } else if (res && res.message) {
-      alert(res.message)
+        alert(res.message)
       } else {
-      alert("Network Error")
+        alert("Network Error")
       }
   }
 
@@ -157,8 +169,13 @@ function Activate({ route, appReducer, dispatch, navigation }) {
 
 
               <View style={styles.row1}>
-              <View style={styles.view30}> 
-                <MyText style={ styles.fieldText }>QR Code</MyText>   
+              <View style={styles.view30}>
+                <View style={styles.row}>
+                  <MyText style={ styles.fieldText }>QR Code</MyText>  
+                  <TouchableOpacity onPress={()=> navigation.navigate('QrActivate')}>
+                    <MyText style={styles.scanBtn}>Scan</MyText>
+                  </TouchableOpacity> 
+                </View>
                 <TextInput maxLength={5} ref={ qrRef1 } value={ qrCode1 } placeholder={"xxx"} onChangeText={(text)=> setQrCode1(text) } style={ qrCode1 == '' ? styles.otp : styles.otpFilled } onBlur={()=> qrRef1.current.setNativeProps({style:{borderColor: "black"}})} />
               </View>
 
@@ -492,6 +509,14 @@ function Activate({ route, appReducer, dispatch, navigation }) {
       color: '#000000',
       marginBottom: 8
     },
+
+    scanBtn: {
+      color: '#19826d',
+      marginLeft: 6,
+      fontSize: 12,
+      marginBottom: 8,
+      fontWeight: 'bold'
+    }
 
     })
     
