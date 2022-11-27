@@ -34,6 +34,32 @@ function ContactUs({ route, appReducer, dispatch, navigation }) {
         console.log(appReducer.appReducer)
       }
   }, [isFocused]);
+
+
+  const sendMessage = async () => {
+    let data = {
+        first_name: firstName,
+        last_name: " ",
+        subject: subject,
+        email: email,
+        phone: phone,
+        message: msg
+    }
+
+    setLoading(true)
+    const res = await Api(ApiConstants.BASE_URL + ApiConstants.CONTACT_US, data, "POST", appReducer.appReducer.authToken)
+    setLoading(false)
+    
+    if (res && res.status == "success"){
+      alert(res.message)
+    } else if (res && res.message) {
+      alert(res.message)
+    } else {
+      alert("Network Error")
+    }
+
+
+  }
   
       return (
 

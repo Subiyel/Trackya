@@ -14,6 +14,7 @@
     FETCH_LOST_ITEMS: "lost-item-lists",
     REPORT_LOST: "lost-item-report",
     ACTIVATE: "activate",
-    UPDATE_PROFILE: "update-profile"
+    UPDATE_PROFILE: "update-profile",
+    CONTACT_US: "contact-us",
    };
 
