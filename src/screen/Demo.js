@@ -1,4 +1,4 @@
-import React, { useState,useRef } from 'react'
+import React, { useState,useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, MyHeader }  from '../components';
 import { Provider, connect } from 'react-redux';
@@ -14,6 +14,7 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
   
 
   const isFocused = useIsFocused();
+  const [isLoading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
 
     useEffect(() => {

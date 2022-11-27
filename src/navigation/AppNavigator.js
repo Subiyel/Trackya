@@ -18,6 +18,7 @@ import LostFormContainer from '../screen/LostForm';
 import LostItemsContainer from '../screen/LostItems';
 import MarkLostContainer from '../screen/MarkLost';
 import TrackerContainer from '../screen/Tracker';
+import ContactUsContainer from '../screen/ContactUs';
 
 
 
@@ -99,6 +100,8 @@ function BottomTabs() {
     <HomeStack.Screen name="MarkLost" component={MarkLostContainer} />
     <HomeStack.Screen name="Tracker" component={TrackerContainer} />
     <HomeStack.Screen name="QrActivate" component={QrActivateContainer} />
+    <HomeStack.Screen name="ContactUs" component={ContactUsContainer} />
+    
 	  </HomeStack.Navigator>
 	);
   }

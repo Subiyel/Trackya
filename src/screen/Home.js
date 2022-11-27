@@ -191,7 +191,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
           type="feather"
           icon="person-add-outline"
           text="Support"
-          //onPress={() => this.props.navigation.navigate("Active Users")}
+          onPress={() => navigation.navigate("ContactUs")}
         />
 
         <Overlay
