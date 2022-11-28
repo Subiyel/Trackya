@@ -46,9 +46,10 @@ function Intro({ route, appReducer, dispatch, navigation }) {
 
   const getFCMtoken = async () => {
     await messaging().registerDeviceForRemoteMessages();
-    const fcm_token = await messaging().getToken();
-    console.log("FCM_Token: ", fcm_token)
-    dispatch({ type: types.FCM_TOKEN, fcm_token })
+    const token = await messaging().getToken();
+    console.log("FCM token: ", token)
+    let data = { fcm_token: token }
+    dispatch({ type: types.FCM_TOKEN, data })
   }
 
   const slides = [

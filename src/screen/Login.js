@@ -46,7 +46,8 @@ function Login({ route, appReducer, dispatch, navigation }) {
       let params = {
         "password": password,
         "email": email,
-        "type": ""
+        "type": "",
+        "fcm_token": appReducer.appReducer.fcmToken
       }
       loginUser(params)
     }

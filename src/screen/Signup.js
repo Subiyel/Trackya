@@ -59,7 +59,8 @@ function Signup({ route, appReducer, dispatch, navigation }) {
       "name": firstName + " " + lastName,
       "email": email,
       "phone": countryCode + "" + phone,
-      "password": password
+      "password": password,
+      "fcm_token": appReducer.appReducer.fcmToken
     }
   
     setLoading(true)
