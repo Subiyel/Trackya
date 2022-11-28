@@ -11,7 +11,8 @@ const INITIAL_STATE = {
   publicToken: "",
   isFaceIDenabled: false,
   isFirstTime: true,
-  phone: ""
+  phone: "",
+  fcmToken: ""
 };
 
 const appReducer = (state = INITIAL_STATE, action) => {
@@ -79,7 +80,15 @@ const appReducer = (state = INITIAL_STATE, action) => {
             ...state,
             isFirstTime: false
             };
-        }  
+        } 
+        
+
+      case types.FCM_TOKEN: {
+        return {
+            ...state,
+            fcmToken: action.data.fcm_token
+            };
+        }
         
 
     default:

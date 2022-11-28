@@ -8,6 +8,8 @@ import Ion from 'react-native-vector-icons/Ionicons';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import * as types from "../store/actions/types";
 import { useIsFocused } from "@react-navigation/native";
+import messaging from '@react-native-firebase/messaging';
+
 
 const primary = "#19826d"
 function Intro({ route, appReducer, dispatch, navigation }) {
@@ -19,15 +21,35 @@ function Intro({ route, appReducer, dispatch, navigation }) {
 
   useEffect(() => {
     if (isFocused) {
+      requestUserPermission()
       console.log(appReducer.appReducer)
       if(!appReducer.appReducer.isFirstTime){
-        navigation.navigate('Landing')
+        // navigation.navigate('Landing')
       }
     }
   }, [isFocused]);
 
 
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+    if (enabled) {
+      getFCMtoken()
+      console.log('Authorization status:', authStatus);
 
+    }
+  }
+
+
+  const getFCMtoken = async () => {
+    await messaging().registerDeviceForRemoteMessages();
+    const fcm_token = await messaging().getToken();
+    console.log("FCM_Token: ", fcm_token)
+    dispatch({ type: types.FCM_TOKEN, fcm_token })
+  }
 
   const slides = [
     {
