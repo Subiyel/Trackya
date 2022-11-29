@@ -31,6 +31,8 @@ target 'Trackya' do
   
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
+
 
   target 'TrackyaTests' do
     inherit! :complete

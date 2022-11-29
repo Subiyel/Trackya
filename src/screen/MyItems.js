@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyText, MyButton, MyHeader, MyItem }  from '../components';
+import  { MyText, ShimmerList, MyHeader, MyItem }  from '../components';
 import { Provider, connect } from 'react-redux';
 import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -15,21 +15,30 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
   
 
   const isFocused = useIsFocused();
+  const [isLoading, setLoading] = useState(false);
   const [itemList, setItemList] = useState([]);
 
-  
 
 
     useEffect(() => {
       if (isFocused) {
-        console.log("data ", route.params.items)
-
-        if (route.params && route.params.items && route.params.items.length > 0) {
-          setItemList(route.params.items)
-        }
-        
+        fetchMyItems()
       }
     }, [isFocused]);
+
+
+
+    const fetchMyItems = async () => {
+      setLoading(true)
+      const res = await Api(ApiConstants.BASE_URL + ApiConstants.FETCH_ITEMS, null, "GET", appReducer.appReducer.authToken)
+      setLoading(false)
+      console.log(res)
+      if (res && res.data) {
+        setItemList(res.data)
+      }
+    }
+
+
 
       return (
 
@@ -55,13 +64,20 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
            }
                 
                 {
-                  itemList.length < 1 &&
+                  !isLoading && itemList.length < 1 &&
                   <Image source={ require('../assets/img/NRF.png') } style={{ height: 100, width: 100, alignSelf: 'center', marginTop: 200 }} />
                 }
+
+                { isLoading &&
+                  <View>
+                    <ShimmerList />
+                    <ShimmerList /> 
+                  </View> 
+                }  
                 
                 
 
-
+                <View style={{ height: 60 }} />
           </View>
         </ScrollView>
         </View>

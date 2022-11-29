@@ -34,7 +34,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
         if (isFocused) {
           console.log(appReducer.appReducer)
           checkFaceID()
-          fetchMyItems()
+          // fetchMyItems()
         }
     }, [isFocused]);
 
@@ -178,7 +178,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
           type="feather"
           icon="notifications"
           text="Alerts"
-          // onPress={() => this.props.navigation.navigate("Notify Staff")}
+          onPress={() => navigation.navigate("Alerts")}
         />
         <AppIconBtn
           type="feather"

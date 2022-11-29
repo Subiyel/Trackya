@@ -73,7 +73,7 @@ function LostItems({ route, appReducer, dispatch, navigation }) {
                 </View> 
           }   
                 
-
+              <View style={{ height: 200 }} />
           </View>
         </ScrollView>
         </View>

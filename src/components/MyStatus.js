@@ -27,7 +27,7 @@ export default function MyStatus(props) {
         paddingHorizontal: 12,
         borderWidth: 0,
         borderColor: '#000',
-        borderRadius: 10
+        borderRadius: 10,
       },
 
       txt: {
