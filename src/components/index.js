@@ -6,6 +6,7 @@ import MyImage from "./MyImage"
 import MyStatus from "./MyStatus"
 import MyButton from "./MyButton"
 import MyHeader from "./MyHeader"
+import MyWebview from "./MyWebview"
 import QrScanner from "./QrScanner"
 import AppIconBtn from "./AppIconBtn"
 import CircleBack from "./CircleBack"
@@ -25,6 +26,7 @@ export {
     MyStatus,
     MyButton,
     MyHeader,
+    MyWebview,
     QrScanner,
     AppIconBtn,
     CircleBack,

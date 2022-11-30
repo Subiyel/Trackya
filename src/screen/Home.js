@@ -194,6 +194,9 @@ function Home({ route, appReducer, dispatch, navigation }) {
           onPress={() => navigation.navigate("ContactUs")}
         />
 
+
+      
+
         <Overlay
           onClose={() => toggleActivateOpts(false)}
           visible={activateOtpVisible}
@@ -243,6 +246,24 @@ function Home({ route, appReducer, dispatch, navigation }) {
           onClose={() => closeFaceID()}
         />
       </View>
+
+
+        <View style={styles.flexRow}>
+          <AppIconBtn
+            type="feather"
+            icon="send"
+            text="Website"
+            onPress={() => navigation.navigate("Website")}
+          />
+          <AppIconBtn
+            type="feather"
+            icon="list"
+            text="Store"
+            onPress={() => navigation.navigate("Store")}
+          />
+        </View>
+
+
     </View>
       )
     }

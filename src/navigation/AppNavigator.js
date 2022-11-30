@@ -20,6 +20,8 @@ import MarkLostContainer from '../screen/MarkLost';
 import TrackerContainer from '../screen/Tracker';
 import ContactUsContainer from '../screen/ContactUs';
 import AlertsContainer from '../screen/Alerts';
+import WebsiteContainer from '../screen/Website';
+import StoreContainer from '../screen/Store';
 
 
 
@@ -103,6 +105,9 @@ function BottomTabs() {
     <HomeStack.Screen name="QrActivate" component={QrActivateContainer} />
     <HomeStack.Screen name="ContactUs" component={ContactUsContainer} />
     <HomeStack.Screen name="Alerts" component={AlertsContainer} />
+    <HomeStack.Screen name="Website" component={WebsiteContainer} />
+    <HomeStack.Screen name="Store" component={StoreContainer} />
+    
     
 	  </HomeStack.Navigator>
 	);

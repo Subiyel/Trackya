@@ -39,7 +39,7 @@ function ContactUs({ route, appReducer, dispatch, navigation }) {
   const sendMessage = async () => {
     let data = {
         first_name: firstName,
-        last_name: " ",
+        last_name: "User",
         subject: subject,
         email: email,
         phone: phone,
@@ -52,6 +52,7 @@ function ContactUs({ route, appReducer, dispatch, navigation }) {
     
     if (res && res.status == "success"){
       alert(res.message)
+      navigation.goBack()
     } else if (res && res.message) {
       alert(res.message)
     } else {
