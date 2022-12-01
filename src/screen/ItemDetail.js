@@ -61,7 +61,7 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
     
     let data = {
       title: title,
-      description: desc,
+      // description: desc,
       id: route.params.item.id,
       passport_number: passNo,
       passport_expiry_date: passExpiry
@@ -147,12 +147,14 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
                     <MyText style={ styles.fieldText }>Title</MyText>  
                     <TextInput value={ title } placeholder={"Title"} onChangeText={(text)=> setTitle(text) } style={ styles.inputField } />
                     
-                    <MyText style={ styles.fieldText }>Description</MyText>  
-                    <TextInput value={ desc } placeholder={"Description"} onChangeText={(text)=> setDesc(text) } style={ styles.inputField } />
-
+                    {/* <MyText style={ styles.fieldText }>Description</MyText>  
+                    <TextInput value={ desc } placeholder={"Description"} onChangeText={(text)=> setDesc(text) } style={ styles.inputField } /> */}
+                    { route.params.item.type == "Passport Cover" &&
+                    <>
                     <MyText style={ styles.fieldText }>Passport Expiry</MyText>  
                     <TextInput value={ passExpiry } placeholder={"Passport Expiry"} onChangeText={(text)=> setPassExpiry(text) } style={ styles.inputField } />
-
+                    </>
+                    }
                     <MyText style={ styles.fieldText }>Passport No#</MyText>  
                     <TextInput value={ passNo } placeholder={"Passport No#"} onChangeText={(text)=> setPassNo(text) } style={ styles.inputField } />
 
