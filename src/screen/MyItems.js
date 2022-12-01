@@ -55,6 +55,7 @@ function MyItems({ route, appReducer, dispatch, navigation }) {
                     onPress={()=> navigation.navigate('ItemDetail', {item})}
                     uri={item.image} 
                     title={item.title}
+                    type={item.type}
                     desc={item.description}
                     qrcode={item.qr_code}
                     status={item.status}

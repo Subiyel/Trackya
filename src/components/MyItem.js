@@ -15,7 +15,7 @@ export default function MyItem(props) {
             <View style={styles.section}>
                 <MyText numberOfLines={1} style={styles.title}><MyText style={styles.boldTxt}>Title:</MyText> {props.title}</MyText>
                 <MyText numberOfLines={2} style={styles.qrTxt}><MyText style={styles.boldTxt}>UID:</MyText> {props.qrcode}</MyText>
-                <MyText numberOfLines={2} style={styles.desc}><MyText style={styles.boldTxt}>Desc:</MyText> {props.desc}</MyText>
+                <MyText numberOfLines={2} style={styles.desc}><MyText style={styles.boldTxt}>Type:</MyText> {props.type}</MyText>
             </View>
         </View>
     </TouchableOpacity>
