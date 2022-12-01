@@ -54,8 +54,9 @@ function LostItems({ route, appReducer, dispatch, navigation }) {
                     onPress={()=> console.log(item)}
                     uri={item.register_tag && item.register_tag.image} 
                     title={item.location}
-                    type={item.type}
+                    type={item.register_tag && item.register_tag.type}
                     desc={item.description}
+                    qrcode={item.register_tag && item.register_tag.qr_code}
                     status={item.status}
                   />
               )
