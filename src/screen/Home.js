@@ -150,9 +150,9 @@ function Home({ route, appReducer, dispatch, navigation }) {
       <View style={styles.flexRow}>
         <AppIconBtn
           type="feather"
-          icon="location"
-          text="Tracker"
-          onPress={() => navigation.navigate("Tracker")}
+          icon="information-circle"
+          text="About Us"
+          onPress={() => navigation.navigate("About")}
         />
       </View>
 
@@ -197,47 +197,6 @@ function Home({ route, appReducer, dispatch, navigation }) {
 
       
 
-        <Overlay
-          onClose={() => toggleActivateOpts(false)}
-          visible={activateOtpVisible}
-          childrenWrapperStyle={{ borderRadius: 12 }}
-          closeOnTouchOutside
-        >
-          <MyText
-            style={{
-              fontSize: 18,
-              fontWeight: "bold",
-              textAlign: "center",
-              marginVertical: 10,
-            }}
-          >
-            Please select Activation Method
-          </MyText>
-
-          <View style={[styles.row1, { width: "90%", marginTop: 20 }]}>
-            <TouchableOpacity onPress={() => activateOptions(1)}>
-              <View style={styles.btn}>
-                <Image
-                  source={require("../assets/img/MenuIcons/QR.png")}
-                  style={{ height: 90, width: 90 }}
-                  resizeMode={"contain"}
-                />
-              </View>
-              <MyText style={styles.Txt}>Scan QR Code</MyText>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => activateOptions(2)}>
-              <View style={styles.btn}>
-                <Image
-                  source={require("../assets/img/form.png")}
-                  style={{ height: 90, width: 90 }}
-                  resizeMode={"contain"}
-                />
-              </View>
-              <MyText style={styles.Txt}>Manually Enter</MyText>
-            </TouchableOpacity>
-          </View>
-        </Overlay>
 
         <EnableFaceID
           onContinue={() => enableFaceID()}
@@ -250,17 +209,17 @@ function Home({ route, appReducer, dispatch, navigation }) {
 
         <View style={styles.flexRow}>
           <AppIconBtn
-            type="feather"
-            icon="send"
+            type="featheri"
+            icon="store"
             text="Website"
             onPress={() => navigation.navigate("Website")}
           />
-          <AppIconBtn
+          {/* <AppIconBtn
             type="feather"
             icon="list"
             text="Store"
             onPress={() => navigation.navigate("Store")}
-          />
+          /> */}
         </View>
 
 

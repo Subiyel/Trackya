@@ -150,14 +150,14 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
                     {/* <MyText style={ styles.fieldText }>Description</MyText>  
                     <TextInput value={ desc } placeholder={"Description"} onChangeText={(text)=> setDesc(text) } style={ styles.inputField } /> */}
                     { route.params.item.type == "Passport Cover" &&
-                    <>
-                    <MyText style={ styles.fieldText }>Passport Expiry</MyText>  
-                    <TextInput value={ passExpiry } placeholder={"Passport Expiry"} onChangeText={(text)=> setPassExpiry(text) } style={ styles.inputField } />
-                    </>
+                      <>
+                      <MyText style={ styles.fieldText }>Passport Expiry</MyText>  
+                      <TextInput value={ passExpiry } placeholder={"Passport Expiry"} onChangeText={(text)=> setPassExpiry(text) } style={ styles.inputField } />
+                      
+                      <MyText style={ styles.fieldText }>Passport No#</MyText>  
+                      <TextInput value={ passNo } placeholder={"Passport No#"} onChangeText={(text)=> setPassNo(text) } style={ styles.inputField } />
+                      </>
                     }
-                    <MyText style={ styles.fieldText }>Passport No#</MyText>  
-                    <TextInput value={ passNo } placeholder={"Passport No#"} onChangeText={(text)=> setPassNo(text) } style={ styles.inputField } />
-
                 </View>
 
                   <MyButton onPress={()=> saveForm() } isLoading={isLoading} label="Save" buttonStyle={{ marginTop: 30, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} />

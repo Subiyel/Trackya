@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -34,18 +34,12 @@ import { persistStore, persistReducer } from 'redux-persist'
 import themes from "./src/util/Colors";
 import AppStateProvider from "./AppState"
 import Toast from 'react-native-toast-message';
+import messaging from '@react-native-firebase/messaging';
+
 let persistor = persistStore(store)
 const ThemeContext = React.createContext(themes.light);
-// const {store, persistor} = configureStore();
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
 
-console.log("Store: ", store)
-console.log(" persistor: ",persistor )
-console.log(" Provider: ",Provider )
-
-console.log(" PersistGate: ",PersistGate )
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -54,6 +48,26 @@ const App: () => Node = () => {
     flex:1,
     backgroundColor: isDarkMode ? Colors.darker : 'white',
   };
+
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      
+      console.log("PUSH Recieved! ", remoteMessage)
+      if (remoteMessage && remoteMessage.notification){
+        Toast.show({
+          type: 'success',
+          text1: remoteMessage.notification.title,
+          text2: remoteMessage.notification.body
+        });
+      }
+      
+    });
+
+    return unsubscribe;
+  }, []);
+
+
 
   return (
     <SafeAreaView style={backgroundStyle}>

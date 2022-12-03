@@ -40,9 +40,6 @@ function Website({ route, appReducer, dispatch, navigation }) {
         <MyHeader {...navigation} title="Website" />
   
           <View style={styles.containerWrapper}>
-          
-          <MyWebview content={{ html: appData.content }}/>
-
 
             { isLoading &&
                   <View>
@@ -50,6 +47,8 @@ function Website({ route, appReducer, dispatch, navigation }) {
                     <ShimmerList /> 
                   </View> 
             }
+
+            <MyWebview content={{ uri: "https://trackya.co.uk/" }}/>
 
           </View>
         </View>

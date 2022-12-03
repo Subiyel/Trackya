@@ -21,7 +21,7 @@ import TrackerContainer from '../screen/Tracker';
 import ContactUsContainer from '../screen/ContactUs';
 import AlertsContainer from '../screen/Alerts';
 import WebsiteContainer from '../screen/Website';
-import StoreContainer from '../screen/Store';
+import AboutContainer from '../screen/About';
 
 
 
@@ -106,7 +106,7 @@ function BottomTabs() {
     <HomeStack.Screen name="ContactUs" component={ContactUsContainer} />
     <HomeStack.Screen name="Alerts" component={AlertsContainer} />
     <HomeStack.Screen name="Website" component={WebsiteContainer} />
-    <HomeStack.Screen name="Store" component={StoreContainer} />
+    <HomeStack.Screen name="About" component={AboutContainer} />
     
     
 	  </HomeStack.Navigator>

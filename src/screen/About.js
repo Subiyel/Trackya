@@ -10,7 +10,7 @@ import * as types from "../store/actions/types";
 import { useIsFocused } from "@react-navigation/native";
 import Api from "../api/Api";
 
-function Store({ route, appReducer, dispatch, navigation }) {
+function About({ route, appReducer, dispatch, navigation }) {
   
 
   const isFocused = useIsFocused();
@@ -19,12 +19,20 @@ function Store({ route, appReducer, dispatch, navigation }) {
 
     useEffect(() => {
       if (isFocused) {
-        // fetchHTML()
+        fetchHTML()
       }
   }, [isFocused]);
 
 
-  
+  const fetchHTML = async () => {
+        setLoading(true)
+        const res = await Api(ApiConstants.BASE_URL + ApiConstants.ABOUT_APP, null, "GET", appReducer.appReducer.authToken)
+        setLoading(false)
+        console.log(res)
+        if (res && res.data) {
+            setAppData(res.data)
+        }
+  }
   
       return (
 
@@ -33,14 +41,17 @@ function Store({ route, appReducer, dispatch, navigation }) {
   
           <View style={styles.containerWrapper}>
           
-            <MyWebview content={{ uri: "https://trackya.co.uk/" }}/>
-
-            { isLoading &&
-                  <View>
+          { isLoading &&
+                  <View style={{ flex: 1 }}>
                     <ShimmerList />
                     <ShimmerList /> 
                   </View> 
-            }
+          }
+
+          <MyWebview content={{ html: appData.content }}/>
+
+
+            
 
           </View>
         </View>
@@ -63,7 +74,8 @@ function Store({ route, appReducer, dispatch, navigation }) {
         backgroundColor: "#E1E1E1",
       },
       containerWrapper: {
-        flex: 1
+        flex: 1,
+        
       },
 
       row: {
@@ -80,5 +92,5 @@ function Store({ route, appReducer, dispatch, navigation }) {
     })
     
     
-    const StoreContainer = connect(state => ({ appReducer: state }))(Store);
-    export default StoreContainer
+    const AboutContainer = connect(state => ({ appReducer: state }))(About);
+    export default AboutContainer

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "510318603027",
+    "project_id": "trackya-844b3",
+    "storage_bucket": "trackya-844b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510318603027:android:4cfb2f62da0727958288e6",
+        "android_client_info": {
+          "package_name": "com.trackya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510318603027-7248kv6k02u6odb1gj65g3fio4legn44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCODop5LyTQaHvyVCvheV4cQUTc1vLCu6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510318603027-7248kv6k02u6odb1gj65g3fio4legn44.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "510318603027-ek0f6s2fs3huae3ktubc90dt66i3j5qq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.koolkrew.Trackya"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
