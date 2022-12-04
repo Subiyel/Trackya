@@ -84,7 +84,7 @@ function Intro({ route, appReducer, dispatch, navigation }) {
   const _renderItem = ({ item }) => {
     return (
       <View style={styles.slide}>
-        <View style={{ width: '100%', position: 'absolute', top: 30, zIndex: 100 }}>
+        <View style={{ width: '100%', position: 'absolute', top: 30, zIndex: 100, paddingHorizontal: 25 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.text}>{item.text}</Text>
         </View>
