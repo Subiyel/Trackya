@@ -209,17 +209,17 @@ function Home({ route, appReducer, dispatch, navigation }) {
 
         <View style={styles.flexRow}>
           <AppIconBtn
-            type="featheri"
-            icon="store"
+            type="feather"
+            icon="globe"
             text="Website"
             onPress={() => navigation.navigate("Website")}
           />
-          {/* <AppIconBtn
-            type="feather"
-            icon="list"
+          <AppIconBtn
+            type="feather2"
+            icon="cart-variant"
             text="Store"
-            onPress={() => navigation.navigate("Store")}
-          /> */}
+            onPress={() => navigation.navigate("WebStore")}
+          />
         </View>
 
 

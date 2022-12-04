@@ -68,14 +68,14 @@ function Intro({ route, appReducer, dispatch, navigation }) {
     {
       key: "two",
       title: "Luggage tracker",
-      text: "Real-Time tracking of your lugggages",
+      text: "Real-Time tracking of your luggages",
       image: require("../assets/img/intro/intro2.jpg"),
       backgroundColor: "#febe29",
     },
     {
       key: "three",
       title: "Lost Item?",
-      text: "Don't Worry! Let us reunite you with your Lugguage",
+      text: "Don't Worry! Let us reunite you with your Luggage",
       image: require("../assets/img/intro/intro3.jpg"),
       backgroundColor: "#22bcb5",
     },
