@@ -76,7 +76,7 @@ function Intro({ route, appReducer, dispatch, navigation }) {
       key: "three",
       title: "Lost Item?",
       text: "Don't Worry! Let us reunite you with your Lugguage",
-      image: require("../assets/img/intro/intro4.jpg"),
+      image: require("../assets/img/intro/intro3.jpg"),
       backgroundColor: "#22bcb5",
     },
   ];
