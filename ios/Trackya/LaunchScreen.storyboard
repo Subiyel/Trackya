@@ -17,17 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="Vt9-Xf-pYB">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="sKx-CX-IZy">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Vt9-Xf-pYB" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="asF-Zk-hd1"/>
-                            <constraint firstItem="Vt9-Xf-pYB" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="bRq-kB-vIR"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="Vt9-Xf-pYB" secondAttribute="trailing" id="nHz-JY-b2l"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="Vt9-Xf-pYB" secondAttribute="bottom" id="pZ3-e3-G3C"/>
+                            <constraint firstItem="sKx-CX-IZy" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="Bgn-Hh-mz1"/>
+                            <constraint firstItem="sKx-CX-IZy" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="JFn-Yi-kya"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="sKx-CX-IZy" secondAttribute="trailing" id="boo-fH-VBS"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="sKx-CX-IZy" secondAttribute="bottom" id="lXX-yb-Yvz"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Splash" width="1242" height="2436"/>
+        <image name="Splash" width="393" height="852"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

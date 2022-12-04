@@ -37,7 +37,7 @@ function About({ route, appReducer, dispatch, navigation }) {
       return (
 
         <View style={styles.container}>
-        <MyHeader {...navigation} title="Website" />
+        <MyHeader {...navigation} title="" />
   
           <View style={styles.containerWrapper}>
           

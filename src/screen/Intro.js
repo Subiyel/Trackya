@@ -84,8 +84,10 @@ function Intro({ route, appReducer, dispatch, navigation }) {
   const _renderItem = ({ item }) => {
     return (
       <View style={styles.slide}>
+        <View style={{ width: '100%', position: 'absolute', top: 30, zIndex: 100 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.text}>{item.text}</Text>
+        </View>
         <Image
           source={item.image}
           style={styles.introImg}
@@ -170,6 +172,7 @@ const styles = StyleSheet.create({
   },
 
   introImg: {
+    marginTop: 30,
     height: "100%",
     width: "100%",
   },
@@ -180,13 +183,16 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
     fontSize: 20,
+    textAlign: 'center'
   },
 
   text: {
+    marginTop: 6,
     textAlign: "center",
     backgroundColor: "#FFF",
     color: "black",
     fontSize: 17,
+    textAlign: 'center'
   },
 
   slide: {

@@ -105,6 +105,7 @@ function Login({ route, appReducer, dispatch, navigation }) {
       let params = {
         type: biometricType,
         hash_id: appReducer.appReducer.publicToken,
+        fcm_token: appReducer.appReducer.fcmToken
       }
       loginUser(params)  
     }).catch(() => {
