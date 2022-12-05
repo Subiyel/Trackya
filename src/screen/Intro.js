@@ -32,7 +32,7 @@ function Intro({ route, appReducer, dispatch, navigation }) {
       requestUserPermission();
       console.log(appReducer.appReducer);
       if (!appReducer.appReducer.isFirstTime) {
-        // navigation.navigate('Landing')
+        navigation.navigate('Landing')
       }
     }
   }, [isFocused]);

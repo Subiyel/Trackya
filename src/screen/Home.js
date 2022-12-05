@@ -127,7 +127,7 @@ function Home({ route, appReducer, dispatch, navigation }) {
      <View style={styles.wrapper}>
       <View style={styles.header}>
         <View style={styles.welcomeContainer}>
-          <Text style={styles.h1}>Welcome,</Text>
+          <Text style={styles.h1}>Hello,</Text>
           <Text style={styles.h2}>{appReducer.appReducer.name}</Text>
         </View>
         <View style={styles.iconWrapper}>

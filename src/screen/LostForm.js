@@ -68,6 +68,19 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
 
 
 
+    const clearFields = () => {
+      setQrCode1("")
+      setQrCode2("")
+      setQrCode3("")
+      setFirstName("")
+      setLastName("")
+      setPhone("")
+      setImagePath("")
+      setImageType("")
+      setItemDesc("")
+    }
+
+
     const openCamera = async () => {
       const options = {
         mediaType: "photo"
@@ -118,6 +131,7 @@ function LostForm({ route, appReducer, dispatch, navigation }) {
         
         if (res && res.status == "success" && res.message) {
         alert(res.message)
+        clearFields()
         } else if (res && res.message) {
         alert(res.message)
         } else {
