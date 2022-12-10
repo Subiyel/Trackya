@@ -11,7 +11,7 @@ const [source, setSource] = useState( props.source && props.source.uri ? props.s
         <Image
             {...props}
             style={props.style}  
-            source={source}
+            source={props.source && props.source.uri ? props.source : require("../assets/img/loading.png")}
             defaultSource={ require("../assets/img/loading.png") }
             // resizeMode={'contain'}
             // onError={()=> {console.log("Error: ", noImage); setSource(noImage)}} 

@@ -60,7 +60,8 @@ export default function MyItem(props) {
       title: {
         fontSize: 13,
         // fontWeight: 'bold',
-        color: '#000'
+        color: '#000',
+        overflow: 'hidden'
       },
 
       desc: {

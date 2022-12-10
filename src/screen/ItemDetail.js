@@ -1,5 +1,5 @@
-import React, { useState,useRef } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
+import React, { useState,useRef,useEffect } from 'react'
+import { StyleSheet, Alert, View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyText, MyImage, MyButton, CircleBack, MyStatus }  from '../components';
 import { Provider, connect } from 'react-redux';
 import QRCode from 'react-native-qrcode-svg';
@@ -7,14 +7,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
-import Api from "../api/Api";
+import ApiFormData from "../api/ApiFromData";
 import * as Animatable from 'react-native-animatable';
 import Toast from 'react-native-toast-message';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { variable } from '../util/Variables';
+import { useIsFocused } from "@react-navigation/native";
 
 
 function ItemDetail({ route, appReducer, dispatch, navigation }) {
   
 
+  const isFocused = useIsFocused();
   const [item, setItem] = useState(route.params.item);
   const [isEditing, setEditing] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -22,6 +26,9 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
   const [desc, setDesc] = useState(route.params.item.description);
   const [passExpiry, setPassExpiry] = useState("");
   const [passNo, setPassNo] = useState("");
+  const [imagePath, setImagePath] = useState("");
+  const [imageType, setImageType] = useState("");
+  const [coverImg, setCoverImg] = useState(null);
 
 
   const viewRef = useRef(0); 
@@ -35,7 +42,14 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
     });
   }
 
-  console.log(route.params)
+  useEffect(() => {
+    if (isFocused) {
+      console.log(route.params.item)
+      setCoverImg(route.params.item.image)
+    }
+  }, [isFocused]);
+
+  
 
   const markLost = () => {
     navigation.navigate('MarkLost', {item})
@@ -57,18 +71,70 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
     // viewRef.current.bounceInRight() 
   }
 
-  const saveForm = async () => {
-    
-    let data = {
-      title: title,
-      // description: desc,
-      id: route.params.item.id,
-      passport_number: passNo,
-      passport_expiry_date: passExpiry
+
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Choose a Method",
+      "Upload Photo or select from Gallary",
+      [
+        {
+          text: "Camera",
+          onPress: () => openCamera()
+        },
+        { text: "Gallary", onPress: () => openGalary() }
+      ]
+    );
+
+
+    const openCamera = async () => {
+      const options = {
+        mediaType: "photo"
+      }
+      const result = await launchCamera(options);
+      console.log(result)
+      if (result && result.assets && result.assets.length > 0) {
+        setCoverImg(result.assets[0].uri)
+        setImagePath(result.assets[0].uri)
+        setImageType(result.assets[0].type)
+      }
     }
 
+
+    const openGalary = async () => {
+      const options = {
+        mediaType: "photo"
+      }
+      const result = await launchImageLibrary(options);
+      console.log(result)
+      if (result && result.assets && result.assets.length > 0) {
+        setCoverImg(result.assets[0].uri)
+        setImagePath(result.assets[0].uri)
+        setImageType(result.assets[0].type)
+      }
+    }
+  
+
+  const saveForm = async () => {
+
+    const form = new FormData();
+    form.append("title", title)
+    form.append("id", route.params.item.id)
+    form.append("passport_number", passNo)
+    form.append("passport_expiry_date", passExpiry)
+
+    if(!u.isNullorEmpty(imagePath)){
+      form.append('image', {
+        uri: imagePath,
+        type: imageType,
+        name: imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.length),
+      })
+    }
+
+    console.log("FormData: ", form)
+      
+
     setLoading(true)
-    const res = await Api(ApiConstants.BASE_URL + ApiConstants.UPDATE_ITEM, data, "POST", appReducer.appReducer.authToken)
+    const res = await ApiFormData(ApiConstants.BASE_URL + ApiConstants.UPDATE_ITEM, form, "POST", appReducer.appReducer.authToken)
     setLoading(false)
     
     if (res && res.status == "success"){
@@ -88,7 +154,7 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
         <CircleBack {...navigation} />
         <ScrollView>
 
-          <MyImage source={{ uri: item.image }} style={styles.img}  />
+          <MyImage source={{ uri: coverImg }} style={styles.img}  />
           <View style={styles.containerWrapper}>
 
 
@@ -166,8 +232,21 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
 
           }
 
+
+          
           </View>
         </ScrollView>
+
+          
+                  {
+                    isEditing &&
+                    <TouchableOpacity onPress={()=> createTwoButtonAlert()} style={styles.editImg}>
+                        <View style={styles.row1}>
+                          <Icon name="cloud-upload" size={18} color={variable.primary} style={{ marginRight: 10 }} />
+                          <MyText style={styles.editImgTxt}>Edit Image</MyText>
+                        </View>
+                    </TouchableOpacity>
+                  }
         </View>
       )
     }
@@ -201,7 +280,7 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
 
       row1: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
       },
 
@@ -260,6 +339,23 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
         borderRadius: 10,
         marginTop: 10
       },
+
+      editImg: {
+        backgroundColor: variable.white,
+        paddingVertical: 8,
+        width: '50%',
+        position: 'absolute',
+        top: 170,
+        left: '25%',
+        borderRadius: 6,
+        borderWidth: 2,
+        borderColor: variable.primary,
+        zIndex: 100
+      },
+
+      editImgTxt: {
+        textAlign: 'center'
+      }
 
     })
     
