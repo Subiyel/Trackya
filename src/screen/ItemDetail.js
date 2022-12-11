@@ -8,6 +8,7 @@ import { u } from "../util/Utilities";
 import { ApiConstants } from "../api/ApiConstants";
 import * as types from "../store/actions/types";
 import ApiFormData from "../api/ApiFromData";
+import Api from "../api/Api";
 import * as Animatable from 'react-native-animatable';
 import Toast from 'react-native-toast-message';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -22,6 +23,7 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
   const [item, setItem] = useState(route.params.item);
   const [isEditing, setEditing] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [isSubLoading, setSubLoading] = useState(false);
   const [title, setTitle] = useState(route.params.item.title);
   const [desc, setDesc] = useState(route.params.item.description);
   const [passExpiry, setPassExpiry] = useState("");
@@ -148,6 +150,30 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
 
   }
 
+
+  const sendSubscriptionEmail = async () => {
+
+    let data = {
+      user_id: appReducer.appReducer.id,
+      product_id: route.params.item.id
+    }
+
+    setSubLoading(true)
+    const res = await Api(ApiConstants.BASE_URL + ApiConstants.SUBSCRIPTION, data, "POST", appReducer.appReducer.authToken)
+    setSubLoading(false)
+
+    if (res && res.status == "success"){
+      // showToast()
+      // navigation.goBack(2)
+      alert(res.message)
+    } else if (res && res.message) {
+      alert(res.message)
+    } else {
+      alert("Network Error")
+    }
+
+  }
+
       return (
 
         <View style={styles.container}>
@@ -203,6 +229,10 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
 
             <MyButton onPress={()=> openEdit()} label="Edit Details" buttonStyle={{ backgroundColor: '#FFF', marginTop: 80, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} labelStyle={{ color: '#19826d' }} />
             <MyButton onPress={()=> markLost()} label="Mark Item as Lost" buttonStyle={{ marginTop: 20, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} />
+            {
+                  route.params.item.expired_near_to_expire &&
+                    <MyButton isLoading={isSubLoading} onPress={()=> sendSubscriptionEmail() } label="Renew Subscription" buttonStyle={{ backgroundColor: "#FFD900", marginTop: 15, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#000' }} labelStyle={{ color: '#000' }} />
+            }
             </Animatable.View>
             
             :
@@ -228,6 +258,7 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
 
                   <MyButton onPress={()=> saveForm() } isLoading={isLoading} label="Save" buttonStyle={{ marginTop: 30, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} />
                   <MyButton onPress={()=> cancelEdit() } label="Cancel" buttonStyle={{ backgroundColor: '#FFF', marginTop: 15, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} labelStyle={{ color: '#19826d' }} />
+
               </View>
 
           }

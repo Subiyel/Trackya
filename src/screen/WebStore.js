@@ -48,7 +48,7 @@ function WebStore({ route, appReducer, dispatch, navigation }) {
                   </View> 
             }
 
-            <MyWebview content={{ uri: "https://trackya.co.uk/all-products" }}/>
+            <MyWebview content={{ uri: "https://koolkrew.com" }}/>
 
           </View>
         </View>

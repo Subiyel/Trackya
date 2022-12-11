@@ -18,6 +18,7 @@
     CONTACT_US: "contact-us",
     UPDATE_ITEM: "my-item-update",
     FETCH_ALERTS: "alerts",
-    ABOUT_APP: "app-about"
+    ABOUT_APP: "app-about",
+    SUBSCRIPTION: "renew-subscription-email"
    };
 

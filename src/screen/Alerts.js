@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
+import { StyleSheet,  View, ScrollView, Text, ActivityIndicator, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
 import  { MyText, MyImage, ShimmerList, MyHeader, MyItem }  from '../components';
 import { Provider, connect } from 'react-redux';
 import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
@@ -18,6 +18,7 @@ function Alerts({ route, appReducer, dispatch, navigation }) {
   const isFocused = useIsFocused();
   const [alertList, setAlertList] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [isSubLoading, setSubLoading] = useState(false);
 
   
 
@@ -40,6 +41,39 @@ function Alerts({ route, appReducer, dispatch, navigation }) {
             }
     }
 
+
+    const handleTap = (alert) => {
+      if (alert.type == "product expiry") {
+        if (alert.product_details.expired_near_to_expire) {
+          sendSubscriptionEmail(alert)
+        }
+      }
+    }
+
+
+    const sendSubscriptionEmail = async (item) => {
+
+      let data = {
+        user_id: appReducer.appReducer.id,
+        product_id: item.product_details.id
+      }
+  
+      setSubLoading(true)
+      const res = await Api(ApiConstants.BASE_URL + ApiConstants.SUBSCRIPTION, data, "POST", appReducer.appReducer.authToken)
+      setSubLoading(false)
+  
+      if (res && res.status == "success"){
+        // showToast()
+        // navigation.goBack(2)
+        alert(res.message)
+      } else if (res && res.message) {
+        alert(res.message)
+      } else {
+        alert("Network Error")
+      }
+  
+    }
+
       return (
 
         <View style={styles.container}>
@@ -47,19 +81,23 @@ function Alerts({ route, appReducer, dispatch, navigation }) {
 
           <View style={styles.containerWrapper}>
            
+           {
+            isSubLoading && <ActivityIndicator style={{marginTop: 10, marginBottom: 20}} />
+           }
+
           <SwipeListView
             data={alertList}
             disableRightSwipe
             renderItem={ (data, rowMap) => (
-                <View style={styles.rowFront}>
+                <TouchableOpacity onPress={()=> handleTap(data.item)} style={styles.rowFront}>
                     <View style={styles.row}>
-                        <MyImage source={{ uri: data.item.content.image }} style={styles.img} />
+                        <MyImage source={{ uri: data.item.product_details.image }} style={styles.img} />
                         <View style={styles.section}>
                             <MyText numberOfLines={1} style={styles.title}>{data.item.title}</MyText>
                             <MyText numberOfLines={2} style={styles.qrTxt}>{data.item.content.type}</MyText>
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             )}
             renderHiddenItem={ (data, rowMap) => (
                 <View style={styles.rowBack}>
