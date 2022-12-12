@@ -19,6 +19,7 @@
     UPDATE_ITEM: "my-item-update",
     FETCH_ALERTS: "alerts",
     ABOUT_APP: "app-about",
-    SUBSCRIPTION: "renew-subscription-email"
+    SUBSCRIPTION: "renew-subscription-email",
+    FAQS: "faqs",
    };
 

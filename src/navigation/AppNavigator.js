@@ -23,8 +23,7 @@ import AlertsContainer from '../screen/Alerts';
 import WebsiteContainer from '../screen/Website';
 import AboutContainer from '../screen/About';
 import WebStoreContainer from '../screen/WebStore';
-
-
+import FAQsContainer from '../screen/FAQs';
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -109,6 +108,7 @@ function BottomTabs() {
     <HomeStack.Screen name="Website" component={WebsiteContainer} />
     <HomeStack.Screen name="About" component={AboutContainer} />
     <HomeStack.Screen name="WebStore" component={WebStoreContainer} />
+    <HomeStack.Screen name="FAQs" component={FAQsContainer} />
     
     
 	  </HomeStack.Navigator>

@@ -214,6 +214,14 @@ function Home({ route, appReducer, dispatch, navigation }) {
             text="Website"
             onPress={() => navigation.navigate("Website")}
           />
+
+          <AppIconBtn
+            type="feather"
+            icon="md-chatbox-ellipses"
+            text="FAQs"
+            onPress={() => navigation.navigate("FAQs")}
+          />
+
           <AppIconBtn
             type="feather2"
             icon="cart-variant"
