@@ -41,6 +41,7 @@
     "react-native-shimmer-placeholder": "^2.0.9",
     "react-native-svg": "^13.5.0",
     "react-native-swipe-list-view": "^3.2.9",
+    "react-native-swipe-verify": "^0.1.6",
     "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "^11.25.0",

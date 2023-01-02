@@ -215,11 +215,13 @@ function Profile({ route, appReducer, dispatch, navigation }) {
             </View>
 
             <MyText style={{ textAlign: 'center', fontSize: 10, color: '#00000060', marginTop: 95, marginBottom: 10 }}>
-            © 2022 . Trackya v1.0
+            © 2022 . Trackya v1.2
             </MyText>
 
 
             <Logout onPress={()=> navigation.navigate("Login")} />
+
+            <MyButton label={"Delete Account"} onPress={()=> navigation.navigate("Delete")} buttonStyle={{ backgroundColor: '#520202', marginTop: 25, paddingVertical: 10 }} />
 
             <View style={{ height: 40 }} />
 

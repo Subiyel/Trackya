@@ -21,5 +21,6 @@
     ABOUT_APP: "app-about",
     SUBSCRIPTION: "renew-subscription-email",
     FAQS: "faqs",
+    DELETE: "delete-or-restore"
    };
 
