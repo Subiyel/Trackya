@@ -25,6 +25,7 @@ import AboutContainer from '../screen/About';
 import WebStoreContainer from '../screen/WebStore';
 import FAQsContainer from '../screen/FAQs';
 import DeleteAccountContainer from "../screen/DeleteAccount";
+import LiveTrackContainer from "../screen/LivaTrack";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -110,7 +111,7 @@ function BottomTabs() {
     <HomeStack.Screen name="WebStore" component={WebStoreContainer} />
     <HomeStack.Screen name="FAQs" component={FAQsContainer} />
     <HomeStack.Screen name="Delete" component={DeleteAccountContainer} />
-    
+    <HomeStack.Screen name="LiveTrack" component={LiveTrackContainer} />
     
 	  </HomeStack.Navigator>
 	);

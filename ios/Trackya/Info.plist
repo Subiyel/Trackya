@@ -42,7 +42,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>This app requires Face id to authenticate the user to app</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>This app requires Location to show Live location of Tracker</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires Microphone to record voice messages</string>
 	<key>NSPhotoLibraryUsageDescription</key>

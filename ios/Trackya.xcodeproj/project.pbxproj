@@ -209,6 +209,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
+				19CE1E802EA1FE84D2B42A9E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -232,6 +233,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				9870CFD50BBFE8793FA5992A /* [CP-User] [RNFB] Core Configuration */,
+				14CF8016DEC775C616183339 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -342,6 +344,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Trackya/Pods-Trackya-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		14CF8016DEC775C616183339 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Trackya/Pods-Trackya-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Trackya/Pods-Trackya-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Trackya/Pods-Trackya-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		19CE1E802EA1FE84D2B42A9E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Trackya-TrackyaTests/Pods-Trackya-TrackyaTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Trackya-TrackyaTests/Pods-Trackya-TrackyaTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Trackya-TrackyaTests/Pods-Trackya-TrackyaTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9870CFD50BBFE8793FA5992A /* [CP-User] [RNFB] Core Configuration */ = {
@@ -530,6 +566,7 @@
 				DEVELOPMENT_TEAM = 9P73K6XXMS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Trackya/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -558,6 +595,7 @@
 				DEVELOPMENT_TEAM = 9P73K6XXMS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Trackya/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

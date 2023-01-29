@@ -8,6 +8,7 @@ import MyButton from "./MyButton"
 import MyHeader from "./MyHeader"
 import MyWebview from "./MyWebview"
 import QrScanner from "./QrScanner"
+import MyBattery from "./MyBattery"
 import AppIconBtn from "./AppIconBtn"
 import CircleBack from "./CircleBack"
 import ListButton from "./ListButton"
@@ -28,6 +29,7 @@ export {
     MyHeader,
     MyWebview,
     QrScanner,
+    MyBattery,
     AppIconBtn,
     CircleBack,
     ListButton,

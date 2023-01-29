@@ -21,6 +21,12 @@
     ABOUT_APP: "app-about",
     SUBSCRIPTION: "renew-subscription-email",
     FAQS: "faqs",
-    DELETE: "delete-or-restore"
+    DELETE: "delete-or-restore",
+
+
+    TRACKER_URL: "https://api.versa.company/api/v1/devices/",
+    TRACKER_KEY: "58d459f9-0caa-4fbd-a8fc-f595c2a67241",
+    TRACKER_SECRET: "db486ec4-72a9-4aa9-b59b-65826273dbc2",
+    
    };
 

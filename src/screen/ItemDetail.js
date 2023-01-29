@@ -14,7 +14,8 @@ import Toast from 'react-native-toast-message';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { variable } from '../util/Variables';
 import { useIsFocused } from "@react-navigation/native";
-
+import { style } from 'deprecated-react-native-prop-types/DeprecatedTextPropTypes';
+import axios from "axios";
 
 function ItemDetail({ route, appReducer, dispatch, navigation }) {
   
@@ -31,6 +32,7 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
   const [imagePath, setImagePath] = useState("");
   const [imageType, setImageType] = useState("");
   const [coverImg, setCoverImg] = useState(null);
+  const [trackerInfo, setTrackerInfo] = useState(null);
 
 
   const viewRef = useRef(0); 
@@ -48,9 +50,36 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
     if (isFocused) {
       console.log(route.params.item)
       setCoverImg(route.params.item.image)
+      fetchTrackerDetails()
     }
   }, [isFocused]);
 
+
+  const fetchTrackerDetails = async () => {
+    if(route.params.item.type == "Tracker" || route.params.item.category == "Tracker"){
+      try {
+        let request = {
+          method: "GET",
+          url: ApiConstants.TRACKER_URL + route.params.item.qr_code,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            "Api-Key": ApiConstants.TRACKER_KEY,
+            "Secret-Key": ApiConstants.TRACKER_SECRET
+          }
+        }
+        console.log( request )
+        const response = await axios(request);
+        console.log(response)
+        if(response && response.data && response.data.id){
+          setTrackerInfo(response.data)
+        }
+  
+      } catch (error) {
+        console.log("Error: ",error);
+      } 
+    }
+  }
   
 
   const markLost = () => {
@@ -227,7 +256,13 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
                 }
             </View>
 
-            <MyButton onPress={()=> openEdit()} label="Edit Details" buttonStyle={{ backgroundColor: '#FFF', marginTop: 80, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} labelStyle={{ color: '#19826d' }} />
+          { trackerInfo &&    
+            <TouchableOpacity onPress={()=> navigation.navigate('LiveTrack', { item: route.params.item, tracker: trackerInfo })} style={styles.trackBtn}>
+                <MyText style={styles.trackTxt}>Live Track</MyText>
+                <Icon name="location" size={19} color="#FFF" style={{ marginLeft: 10 }} />
+            </TouchableOpacity> 
+          }
+            <MyButton onPress={()=> openEdit()} label="Edit Details" buttonStyle={{ backgroundColor: '#FFF', marginTop: 20, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} labelStyle={{ color: '#19826d' }} />
             <MyButton onPress={()=> markLost()} label="Mark Item as Lost" buttonStyle={{ marginTop: 20, width: '80%', alignSelf: 'center', borderWidth: 2, borderColor: '#19826d' }} />
             {
                   route.params.item.expired_near_to_expire &&
@@ -386,6 +421,24 @@ function ItemDetail({ route, appReducer, dispatch, navigation }) {
 
       editImgTxt: {
         textAlign: 'center'
+      },
+
+      trackBtn: { 
+        width: '80%', 
+        padding: 15, 
+        borderRadius: 8, 
+        flexDirection: 'row',
+        justifyContent: 'center', 
+        alignItems: 'center',
+        backgroundColor: '#19826d', 
+        marginTop: 60, 
+        alignSelf: 'center'
+      },
+
+      trackTxt: {
+        color: '#FFF',
+        fontSize: 14,
+        fontWeight: 'bold'
       }
 
     })
