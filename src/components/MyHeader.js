@@ -6,7 +6,7 @@ import MyBack from './MyBack';
 export default function MyHeader(props) {
 
   return (
-    <View style={styles.row1}>
+    <View style={[styles.row1, props.headerStyle]}>
         <MyBack Style={{ marginTop: 0 }} {...props} />
         <MyText style={styles.navTitle}>{props.title}</MyText>
         <View />

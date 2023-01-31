@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import { StyleSheet,  View, ScrollView, Text, TouchableHighlight, TouchableOpacity, Image, TextInput, Platform } from 'react-native'
-import  { MyText, MyImage, MyButton, CircleBack, MyBattery }  from '../components';
+import  { MyText, MyImage, MyHeader, CircleBack, MyBattery }  from '../components';
 import { Provider, connect } from 'react-redux';
 import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,7 +27,7 @@ function LiveTrack({ route, appReducer, dispatch, navigation }) {
 return (
 
     <View style={styles.container}>
-    <CircleBack {...navigation} />
+    <MyHeader {...navigation} title="Your item is here" headerStyle={{ backgroundColor: '#fce303' }} />
         <View style={styles.containerWrapper}>
           
             <MapView
@@ -51,7 +51,10 @@ return (
                 <MyText style={styles.trackerName}>{route.params.item.title}</MyText>
                 <View style={styles.row}>
                     <Image source={ require("../assets/img/live.gif") } style={{ height: 30, width: 30 }} />
-                    <MyText style={styles.lastSeen}>{ moment(route.params.tracker.updated_at).fromNow() }</MyText>
+                    <View> 
+                        <MyText style={styles.lastUpdated}>Last Updated:</MyText>
+                        <MyText style={styles.lastSeen}>{ moment(route.params.tracker.updated_at).fromNow() }</MyText>
+                    </View>
                 </View>
             </View>    
 
@@ -92,6 +95,11 @@ return (
                             <MyText style={styles.titles}>Carrier</MyText>
                             <MyText style={styles.labels}>{route.params.tracker.carrier}</MyText>
                         </View>
+
+                        <View style={styles.row}>
+                            <MyText style={styles.titles}>Firmware version</MyText>
+                            <MyText style={styles.labels}>{route.params.tracker.firmware}</MyText>
+                        </View>
                         
                         <View style={styles.row}>
                             <MyText style={styles.titles}>Airport Distance</MyText>
@@ -113,7 +121,9 @@ return (
             </ScrollView>    
             </View>
 
-          
+          {/* <View style={styles.headerTitle}>
+            <MyText style={styles.headerLabel}>Your item is here</MyText>
+          </View> */}
     </View>
 )
 }
@@ -162,7 +172,7 @@ return (
             backgroundColor: '#f5f7f5',
             borderTopRightRadius: 20,
             borderTopLeftRadius: 20,
-            paddingTop: 30,
+            paddingTop: 20,
             paddingHorizontal: 30
         },
 
@@ -202,6 +212,28 @@ return (
 
         lastSeen: {
             fontSize: 10
+        },
+
+        headerTitle: {
+            position: 'absolute',
+            top: 13,
+            left: '30%',
+            backgroundColor: '#313e54',
+            borderRadius: 5,
+            paddingVertical: 8,
+            paddingHorizontal: 30
+        },
+
+        headerLabel: {
+            color: '#FFF',
+            fontSize: 13,
+            fontWeight: 'bold'
+        },
+
+        lastUpdated: {
+            fontSize: 10,
+            fontWeight: 'bold',
+            // marginLeft: 20
         }
       
     })
