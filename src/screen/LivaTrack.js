@@ -27,7 +27,8 @@ function LiveTrack({ route, appReducer, dispatch, navigation }) {
 return (
 
     <View style={styles.container}>
-    <MyHeader {...navigation} title="Your item is here" headerStyle={{ backgroundColor: '#fce303' }} />
+    {/* <MyHeader {...navigation} title="Your item is here" headerStyle={{ backgroundColor: '#fce303' }} /> */}
+       <CircleBack {...navigation} />
         <View style={styles.containerWrapper}>
           
             <MapView
@@ -40,7 +41,15 @@ return (
                     longitudeDelta: 0.0421,
                 }}
             >
-                <Marker coordinate={{ latitude : route.params.tracker.lat , longitude : route.params.tracker.lon }} />
+                <Marker coordinate={{ latitude : route.params.tracker.lat , longitude : route.params.tracker.lon }} >
+                    <View style={{ alignItems: 'center' }}>
+                        <View style={styles.customMarker}>
+                            <MyText style={{ color: '#FFF', fontWeight: 'bold', fontSize: 12 }}>Your item is here</MyText>
+                        </View>
+
+                        <Image source={ require('../assets/img/pin.png') } style={{ marginTop: 5, height: 30, width: 30 }} resizeMode={'contain'} />
+                    </View>
+                </Marker>
             </MapView>
 
         </View>
@@ -234,6 +243,12 @@ return (
             fontSize: 10,
             fontWeight: 'bold',
             // marginLeft: 20
+        },
+
+        customMarker: {
+            backgroundColor: '#e8252f',
+            borderRadius: 5,
+            padding: 8
         }
       
     })

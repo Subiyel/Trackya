@@ -215,7 +215,7 @@ function Profile({ route, appReducer, dispatch, navigation }) {
             </View>
 
             <MyText style={{ textAlign: 'center', fontSize: 10, color: '#00000060', marginTop: 95, marginBottom: 10 }}>
-            © 2023 . Trackya v1.4
+            © 2023 . Trackya v1.5
             </MyText>
 
 
